@@ -211,6 +211,7 @@
   <ItemGroup>
     <Compile Include="Helpers\DataTypeHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
+    <Compile Include="Models\PickerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
