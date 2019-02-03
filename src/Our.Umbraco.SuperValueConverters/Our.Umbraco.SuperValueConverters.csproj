@@ -209,6 +209,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boostrapper.cs" />
     <Compile Include="Helpers\DataTypeHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\PickerSettings.cs" />
