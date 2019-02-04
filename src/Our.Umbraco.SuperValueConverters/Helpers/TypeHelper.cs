@@ -24,7 +24,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
 
         public static bool IsIEnumerable(Type type)
         {
-            return type.IsAssignableFrom(typeof(IEnumerable));
+            return typeof(IEnumerable).IsAssignableFrom(type);
         }
 
         public static Type GetInnerType(Type type)
