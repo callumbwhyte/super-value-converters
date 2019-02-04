@@ -41,9 +41,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var modelType = typeof(IPublishedContent);
 
-            if (pickerSettings.AllowedDoctypes.Count() == 1)
+            if (pickerSettings.AllowedDoctypes.Count() == 1
+                && ModelsBuilderHelper.IsEnabled() == true)
             {
-                var foundType = TypeHelper.GetType(pickerSettings.AllowedDoctypes.FirstOrDefault());
+                var modelsNamespace = ModelsBuilderHelper.GetNamespace();
+
+                var foundType = TypeHelper.GetType(pickerSettings.AllowedDoctypes.FirstOrDefault(), modelsNamespace);
 
                 if (foundType != null)
                 {
