@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Our.Umbraco.SuperValueConverters.Helpers;
+using Our.Umbraco.SuperValueConverters.Models;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
@@ -17,7 +19,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public Type GetPropertyValueType(PublishedPropertyType propertyType)
         {
-            var pickerSettings = DataTypeHelper.GetMNTPSettings(propertyType.DataTypeId);
+            var pickerSettings = GetSettings(propertyType);
 
             return BaseValueConverter.GetPropertyValueType(propertyType, pickerSettings);
         }
@@ -27,6 +29,25 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             var value = base.ConvertSourceToObject(propertyType, source, preview) as IEnumerable<IPublishedContent>;
 
             return BaseValueConverter.ConvertSourceToObject(propertyType, value);
+        }
+
+        private IPickerSettings GetSettings(PublishedPropertyType propertyType)
+        {
+            var preValues = DataTypeHelper.GetPreValues(propertyType.DataTypeId);
+
+            if (preValues.Any() == true)
+            {
+                var allowedDoctypes = preValues["filter"].Replace(" ", "").Split(',');
+                var maxItems = Convert.ToInt32(preValues["maxNumber"]);
+
+                return new MNTPSettings
+                {
+                    AllowedDoctypes = allowedDoctypes,
+                    MaxItems = maxItems
+                };
+            }
+
+            return null;
         }
     }
 }
