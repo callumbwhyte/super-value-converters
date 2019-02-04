@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
@@ -25,11 +24,6 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
         public static bool IsIEnumerable(Type type)
         {
             return typeof(IEnumerable).IsAssignableFrom(type);
-        }
-
-        public static Type GetInnerType(Type type)
-        {
-            return type.GetGenericArguments().FirstOrDefault();
         }
     }
 }
