@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using Our.Umbraco.SuperValueConverters.Models;
 using Umbraco.Core;
 
@@ -27,6 +28,30 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
             {
                 var allowedDoctypes = preValues["filter"].Replace(" ", "").Split(',');
                 var maxItems = Convert.ToInt32(preValues["maxNumber"]);
+
+                return new PickerSettings
+                {
+                    AllowedDoctypes = allowedDoctypes,
+                    MaxItems = maxItems
+                };
+            }
+
+            return null;
+        }
+
+        public static PickerSettings GetNestedContentSettings(int dataTypeId)
+        {
+            var preValues = GetPreValues(dataTypeId);
+
+            if (preValues.Any() == true)
+            {
+                var contentTypesJson = JArray.Parse(preValues["contentTypes"]);
+
+                var allowedDoctypes = contentTypesJson
+                    .Select(x => x.Value<string>("ncAlias"))
+                    .ToArray();
+
+                var maxItems = Convert.ToInt32(preValues["maxItems"]);
 
                 return new PickerSettings
                 {
