@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using Our.Umbraco.SuperValueConverters.Attributes.Core;
+using Our.Umbraco.SuperValueConverters.PreValues.Attributes;
 
-namespace Our.Umbraco.SuperValueConverters.Helpers
+namespace Our.Umbraco.SuperValueConverters.PreValues
 {
-    public class PreValueAttributeHelper
+    public class PreValueMapper
     {
         public static T Map<T>(T model, IDictionary<string, string> preValues)
+            where T : class
         {
             var properties = model.GetType().GetProperties();
 

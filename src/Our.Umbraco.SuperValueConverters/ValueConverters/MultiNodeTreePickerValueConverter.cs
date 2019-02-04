@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
+using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
@@ -36,7 +37,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var settings = new MNTPSettings();
 
-            return PreValueAttributeHelper.Map(settings, preValues);
+            return PreValueMapper.Map(settings, preValues);
         }
     }
 }
