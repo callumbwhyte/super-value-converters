@@ -210,11 +210,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\PreValueFilterAttribute.cs" />
     <Compile Include="Attributes\PreValuePropertyAttribute.cs" />
     <Compile Include="Boostrapper.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Helpers\DataTypeHelper.cs" />
     <Compile Include="Helpers\ModelsBuilderHelper.cs" />
+    <Compile Include="Helpers\PreValueAttributeHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\IPickerSettings.cs" />
     <Compile Include="Models\MediaPickerSettings.cs" />
