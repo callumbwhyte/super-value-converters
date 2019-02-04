@@ -17,7 +17,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public Type GetPropertyValueType(PublishedPropertyType propertyType)
         {
-            var pickerSettings = DataTypeHelper.GetPickerSettings(propertyType.DataTypeId);
+            var pickerSettings = DataTypeHelper.GetMNTPSettings(propertyType.DataTypeId);
 
             return BaseValueConverter.GetPropertyValueType(propertyType, pickerSettings);
         }

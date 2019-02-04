@@ -20,7 +20,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
             return preValuesDictionary;
         }
 
-        public static IPickerSettings GetPickerSettings(int dataTypeId)
+        public static IPickerSettings GetMNTPSettings(int dataTypeId)
         {
             var preValues = GetPreValues(dataTypeId);
 
@@ -29,7 +29,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
                 var allowedDoctypes = preValues["filter"].Replace(" ", "").Split(',');
                 var maxItems = Convert.ToInt32(preValues["maxNumber"]);
 
-                return new PickerSettings
+                return new MNTPSettings
                 {
                     AllowedDoctypes = allowedDoctypes,
                     MaxItems = maxItems
@@ -53,7 +53,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
 
                 var maxItems = Convert.ToInt32(preValues["maxItems"]);
 
-                return new PickerSettings
+                return new NestedContentSettings
                 {
                     AllowedDoctypes = allowedDoctypes,
                     MaxItems = maxItems
@@ -78,7 +78,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
 
                 var maxItems = preValues["multiPicker"] == "1" ? 0 : 1;
 
-                return new PickerSettings
+                return new MediaPickerSettings
                 {
                     AllowedDoctypes = allowedDoctypes.ToArray(),
                     MaxItems = maxItems
