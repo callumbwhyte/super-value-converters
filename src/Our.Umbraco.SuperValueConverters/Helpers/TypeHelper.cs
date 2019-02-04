@@ -16,7 +16,9 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
 
             if (string.IsNullOrEmpty(namespaceName) == false)
             {
-                types = types.Where(x => x.Namespace.Equals(namespaceName, StringComparison.InvariantCultureIgnoreCase));
+                types = types
+                    .Where(x => x.Namespace != null)
+                    .Where(x => x.Namespace.Equals(namespaceName, StringComparison.InvariantCultureIgnoreCase));
             }
 
             foreach (var type in types)
