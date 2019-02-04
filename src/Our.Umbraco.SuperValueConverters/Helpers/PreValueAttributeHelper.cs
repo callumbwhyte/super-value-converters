@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using Our.Umbraco.SuperValueConverters.Attributes;
-using Our.Umbraco.SuperValueConverters.Models;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
     public class PreValueAttributeHelper
     {
-        public static IPickerSettings Map(IPickerSettings pickerSettings, IDictionary<string, string> preValues)
+        public static T Map<T>(T model, IDictionary<string, string> preValues)
         {
-            var properties = pickerSettings.GetType().GetProperties();
+            var properties = model.GetType().GetProperties();
 
             foreach (var property in properties)
             {
@@ -23,27 +22,29 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
 
                     if (preValueFilter != null)
                     {
-                        property.SetValue(pickerSettings, preValueFilter.Process(value));
+                        property.SetValue(model, preValueFilter.Process(value));
                     }
-
-                    if (property.PropertyType == typeof(bool))
+                    else
                     {
-                        property.SetValue(pickerSettings, ConvertToBoolean(value));
-                    }
+                        if (property.PropertyType == typeof(bool))
+                        {
+                            property.SetValue(model, ConvertToBoolean(value));
+                        }
 
-                    if (property.PropertyType == typeof(int))
-                    {
-                        property.SetValue(pickerSettings, ConvertToInt(value));
-                    }
+                        if (property.PropertyType == typeof(int))
+                        {
+                            property.SetValue(model, ConvertToInt(value));
+                        }
 
-                    if (property.PropertyType == typeof(string[]))
-                    {
-                        property.SetValue(pickerSettings, ConvertToStringArray(value));
+                        if (property.PropertyType == typeof(string[]))
+                        {
+                            property.SetValue(model, ConvertToStringArray(value));
+                        }
                     }
                 }
             }
 
-            return null;
+            return model;
         }
 
         private static bool ConvertToBoolean(string input)
