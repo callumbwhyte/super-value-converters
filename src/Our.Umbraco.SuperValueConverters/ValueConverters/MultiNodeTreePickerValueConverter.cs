@@ -58,9 +58,25 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        public override object ConvertDataToSource(PublishedPropertyType propertyType, object source, bool preview)
+        public override object ConvertSourceToObject(PublishedPropertyType propertyType, object source, bool preview)
         {
-            return base.ConvertDataToSource(propertyType, source, preview);
+            var data = base.ConvertSourceToObject(propertyType, source, preview) as IEnumerable<IPublishedContent>;
+
+            var clrType = propertyType.ClrType;
+
+            bool allowsMultiple = TypeHelper.IsIEnumerable(clrType);
+
+            if (data != null)
+            {
+                if (allowsMultiple == true)
+                {
+                    return data;
+                }
+
+                return data.FirstOrDefault();
+            }
+
+            return allowsMultiple == true ? Enumerable.Empty<IPublishedContent>() : null;
         }
     }
 }
