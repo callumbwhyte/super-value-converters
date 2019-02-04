@@ -216,6 +216,7 @@
     <Compile Include="Models\PickerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueConverters\MultiNodeTreePickerValueConverter.cs" />
+    <Compile Include="ValueConverters\NestedContentValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

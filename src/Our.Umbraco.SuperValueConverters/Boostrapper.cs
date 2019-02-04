@@ -9,6 +9,7 @@ namespace Our.Umbraco.SuperValueConverters
         protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             PropertyValueConvertersResolver.Current.RemoveType<MultiNodeTreePickerPropertyConverter>();
+            PropertyValueConvertersResolver.Current.RemoveType<NestedContentManyValueConverter>();
         }
     }
 }
