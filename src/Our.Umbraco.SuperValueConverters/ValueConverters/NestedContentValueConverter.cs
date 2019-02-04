@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
 using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
 using Umbraco.Core.Models;
@@ -36,24 +34,9 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var preValues = DataTypeHelper.GetPreValues(propertyType.DataTypeId);
 
-            if (preValues.Any() == true)
-            {
-                var contentTypesJson = JArray.Parse(preValues["contentTypes"]);
+            var settings = new NestedContentSettings();
 
-                var allowedDoctypes = contentTypesJson
-                    .Select(x => x.Value<string>("ncAlias"))
-                    .ToArray();
-
-                var maxItems = Convert.ToInt32(preValues["maxItems"]);
-
-                return new NestedContentSettings
-                {
-                    AllowedDoctypes = allowedDoctypes,
-                    MaxItems = maxItems
-                };
-            }
-
-            return null;
+            return PreValueAttributeHelper.Map(settings, preValues);
         }
     }
 }
