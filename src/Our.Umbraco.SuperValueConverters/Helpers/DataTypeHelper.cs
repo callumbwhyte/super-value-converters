@@ -20,7 +20,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
             return preValuesDictionary;
         }
 
-        public static PickerSettings GetPickerSettings(int dataTypeId)
+        public static IPickerSettings GetPickerSettings(int dataTypeId)
         {
             var preValues = GetPreValues(dataTypeId);
 
@@ -39,7 +39,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
             return null;
         }
 
-        public static PickerSettings GetNestedContentSettings(int dataTypeId)
+        public static IPickerSettings GetNestedContentSettings(int dataTypeId)
         {
             var preValues = GetPreValues(dataTypeId);
 
@@ -63,7 +63,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
             return null;
         }
 
-        public static PickerSettings GetMediaPickerSettings(int dataTypeId)
+        public static IPickerSettings GetMediaPickerSettings(int dataTypeId)
         {
             var preValues = GetPreValues(dataTypeId);
 

@@ -1,8 +1,15 @@
-﻿using System.Linq;
+﻿using System;
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
-    public class PickerSettings
+    public interface IPickerSettings
+    {
+        string[] AllowedDoctypes { get; set; }
+        int MaxItems { get; set; }
+        bool AllowsMultiple();
+    }
+
+    public class PickerSettings : IPickerSettings
     {
         public string[] AllowedDoctypes { get; set; }
 
