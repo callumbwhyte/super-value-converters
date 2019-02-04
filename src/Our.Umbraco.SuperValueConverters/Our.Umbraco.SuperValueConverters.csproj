@@ -210,11 +210,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\Core\PreValueFilterAttribute.cs" />
+    <Compile Include="Attributes\Core\PreValuePropertyAttribute.cs" />
     <Compile Include="Attributes\MediaPickerAllowedDoctypesFilterAttribute.cs" />
     <Compile Include="Attributes\MediaPickerMaxItemsFilterAttribute.cs" />
     <Compile Include="Attributes\NestedContentAllowedDoctypesFilterAttribute.cs" />
-    <Compile Include="Attributes\PreValueFilterAttribute.cs" />
-    <Compile Include="Attributes\PreValuePropertyAttribute.cs" />
     <Compile Include="Boostrapper.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Helpers\DataTypeHelper.cs" />

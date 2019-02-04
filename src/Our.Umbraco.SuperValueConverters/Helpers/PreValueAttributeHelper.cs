@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using Our.Umbraco.SuperValueConverters.Attributes;
+using Our.Umbraco.SuperValueConverters.Attributes.Core;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
