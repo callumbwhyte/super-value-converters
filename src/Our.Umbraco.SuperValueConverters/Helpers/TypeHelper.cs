@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Umbraco.Core.Models;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
@@ -31,6 +33,23 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
         public static bool IsIEnumerable(Type type)
         {
             return typeof(IEnumerable).IsAssignableFrom(type);
+        }
+
+        public static bool IsIPublishedContent(Type type)
+        {
+            return typeof(IPublishedContent).IsAssignableFrom(type);
+        }
+
+        public static Type GetInnerType(Type type)
+        {
+            return type.GetGenericArguments().FirstOrDefault();
+        }
+
+        public static IList CreateListOfType(Type type)
+        {
+            var listType = typeof(List<>).MakeGenericType(type);
+
+            return (IList)Activator.CreateInstance(listType);
         }
     }
 }

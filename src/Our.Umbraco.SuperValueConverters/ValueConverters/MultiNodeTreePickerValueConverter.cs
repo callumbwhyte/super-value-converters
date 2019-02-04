@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Our.Umbraco.SuperValueConverters.Extensions;
 using Our.Umbraco.SuperValueConverters.Helpers;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
@@ -60,23 +61,37 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public override object ConvertSourceToObject(PublishedPropertyType propertyType, object source, bool preview)
         {
-            var data = base.ConvertSourceToObject(propertyType, source, preview) as IEnumerable<IPublishedContent>;
+            var value = base.ConvertSourceToObject(propertyType, source, preview) as IEnumerable<IPublishedContent>;
 
             var clrType = propertyType.ClrType;
 
             bool allowsMultiple = TypeHelper.IsIEnumerable(clrType);
 
-            if (data != null)
-            {
-                if (allowsMultiple == true)
-                {
-                    return data;
-                }
+            var innerType = allowsMultiple ? TypeHelper.GetInnerType(clrType) : clrType;
 
-                return data.FirstOrDefault();
+            var list = innerType == typeof(IPublishedContent)
+                ? new List<IPublishedContent>()
+                : TypeHelper.CreateListOfType(innerType);
+
+            if (value != null)
+            {
+                foreach (var item in value)
+                {
+                    var itemType = item.GetType();
+
+                    if (itemType == innerType)
+                    {
+                        list.Add(item);
+                    }
+                    else if (innerType == typeof(IPublishedContent)
+                        && TypeHelper.IsIPublishedContent(itemType) == true)
+                    {
+                        list.Add(item);
+                    }
+                }
             }
 
-            return allowsMultiple == true ? Enumerable.Empty<IPublishedContent>() : null;
+            return allowsMultiple == true ? list : list.FirstOrNull();
         }
     }
 }
