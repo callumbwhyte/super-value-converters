@@ -137,6 +137,7 @@
       <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\SQLCE4Umbraco.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\System.Data.SqlServerCe.dll</HintPath>
@@ -212,6 +213,7 @@
     <Compile Include="Boostrapper.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Helpers\DataTypeHelper.cs" />
+    <Compile Include="Helpers\ModelsBuilderHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\PickerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
