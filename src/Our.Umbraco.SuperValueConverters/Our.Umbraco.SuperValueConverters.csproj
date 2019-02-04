@@ -217,6 +217,7 @@
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\PickerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueConverters\MediaPickerValueConverter.cs" />
     <Compile Include="ValueConverters\MultiNodeTreePickerValueConverter.cs" />
     <Compile Include="ValueConverters\NestedContentValueConverter.cs" />
   </ItemGroup>

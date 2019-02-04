@@ -62,5 +62,30 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
 
             return null;
         }
+
+        public static PickerSettings GetMediaPickerSettings(int dataTypeId)
+        {
+            var preValues = GetPreValues(dataTypeId);
+
+            if (preValues.Any() == true)
+            {
+                var allowedDoctypes = new List<string>();
+
+                if (preValues["onlyImages"] == "1")
+                {
+                    allowedDoctypes.Add("Image");
+                }
+
+                var maxItems = preValues["multiPicker"] == "1" ? 0 : 1;
+
+                return new PickerSettings
+                {
+                    AllowedDoctypes = allowedDoctypes.ToArray(),
+                    MaxItems = maxItems
+                };
+            }
+
+            return null;
+        }
     }
 }
