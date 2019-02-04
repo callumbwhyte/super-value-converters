@@ -1,4 +1,5 @@
 ﻿using Our.Umbraco.SuperValueConverters.Attributes;
+using Our.Umbraco.SuperValueConverters.Attributes.Core;
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {

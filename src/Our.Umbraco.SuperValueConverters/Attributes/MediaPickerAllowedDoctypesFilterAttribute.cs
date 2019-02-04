@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Our.Umbraco.SuperValueConverters.Attributes.Core;
 
 namespace Our.Umbraco.SuperValueConverters.Attributes
 {

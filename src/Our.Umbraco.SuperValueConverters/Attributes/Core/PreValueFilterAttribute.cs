@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Our.Umbraco.SuperValueConverters.Attributes
+namespace Our.Umbraco.SuperValueConverters.Attributes.Core
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public abstract class PreValueFilterAttribute : Attribute

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Newtonsoft.Json.Linq;
+using Our.Umbraco.SuperValueConverters.Attributes.Core;
 
 namespace Our.Umbraco.SuperValueConverters.Attributes
 {
