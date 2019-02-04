@@ -10,7 +10,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
 
         public bool AllowsMultiple()
         {
-            return AllowedDoctypes.Count() > 1 || MaxItems > 1;
+            return MaxItems == 0 || MaxItems > 1;
         }
     }
 }
