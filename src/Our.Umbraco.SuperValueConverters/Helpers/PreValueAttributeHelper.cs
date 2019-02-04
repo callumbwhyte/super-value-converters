@@ -19,6 +19,13 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
                 {
                     var value = preValues[preValueProperty.Alias];
 
+                    var preValueFilter = property.GetCustomAttribute<PreValueFilterAttribute>(true);
+
+                    if (preValueFilter != null)
+                    {
+                        property.SetValue(pickerSettings, preValueFilter.Process(value));
+                    }
+
                     if (property.PropertyType == typeof(bool))
                     {
                         property.SetValue(pickerSettings, ConvertToBoolean(value));
