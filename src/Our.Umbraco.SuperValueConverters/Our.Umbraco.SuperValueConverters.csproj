@@ -210,6 +210,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\PreValuePropertyAttribute.cs" />
     <Compile Include="Boostrapper.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Helpers\DataTypeHelper.cs" />

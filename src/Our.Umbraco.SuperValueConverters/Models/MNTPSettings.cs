@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Our.Umbraco.SuperValueConverters.Attributes;
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
     public class MNTPSettings : IPickerSettings
     {
+        [PreValueProperty("filter")]
         public string[] AllowedDoctypes { get; set; }
 
+        [PreValueProperty("maxNumber")]
         public int MaxItems { get; set; }
 
         public bool AllowsMultiple()
