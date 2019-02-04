@@ -5,6 +5,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
     public class NestedContentSettings : IPickerSettings
     {
         [PreValueProperty("contentTypes")]
+        [NestedContentAllowedDoctypesFilter]
         public string[] AllowedDoctypes { get; set; }
 
         [PreValueProperty("maxItems")]

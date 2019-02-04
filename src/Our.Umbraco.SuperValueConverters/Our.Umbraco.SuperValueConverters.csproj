@@ -210,6 +210,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\MediaPickerAllowedDoctypesFilterAttribute.cs" />
+    <Compile Include="Attributes\MediaPickerMaxItemsFilterAttribute.cs" />
+    <Compile Include="Attributes\NestedContentAllowedDoctypesFilterAttribute.cs" />
     <Compile Include="Attributes\PreValueFilterAttribute.cs" />
     <Compile Include="Attributes\PreValuePropertyAttribute.cs" />
     <Compile Include="Boostrapper.cs" />
