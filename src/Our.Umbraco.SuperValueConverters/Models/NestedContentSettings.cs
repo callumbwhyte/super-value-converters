@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Our.Umbraco.SuperValueConverters.Attributes;
+using Our.Umbraco.SuperValueConverters.PreValues.Attributes;
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
     public class NestedContentSettings : IPickerSettings
     {
+        [PreValueProperty("contentTypes")]
+        [NestedContentAllowedDoctypesFilter]
         public string[] AllowedDoctypes { get; set; }
 
+        [PreValueProperty("maxItems")]
         public int MaxItems { get; set; }
 
         public bool AllowsMultiple()

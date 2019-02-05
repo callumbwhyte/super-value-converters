@@ -210,6 +210,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\MediaPickerAllowedDoctypesFilterAttribute.cs" />
+    <Compile Include="Attributes\MediaPickerMaxItemsFilterAttribute.cs" />
+    <Compile Include="Attributes\NestedContentAllowedDoctypesFilterAttribute.cs" />
     <Compile Include="Boostrapper.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Helpers\DataTypeHelper.cs" />
@@ -219,6 +222,10 @@
     <Compile Include="Models\MediaPickerSettings.cs" />
     <Compile Include="Models\MNTPSettings.cs" />
     <Compile Include="Models\NestedContentSettings.cs" />
+    <Compile Include="PreValues\Attributes\PreValueFilterAttribute.cs" />
+    <Compile Include="PreValues\Attributes\PreValuePropertyAttribute.cs" />
+    <Compile Include="PreValues\Extensions\PreValueExtensions.cs" />
+    <Compile Include="PreValues\PreValueMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueConverters\BaseValueConverter.cs" />
     <Compile Include="ValueConverters\MediaPickerValueConverter.cs" />

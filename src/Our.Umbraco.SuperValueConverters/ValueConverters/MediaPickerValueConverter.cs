@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
+using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
@@ -35,25 +35,9 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var preValues = DataTypeHelper.GetPreValues(propertyType.DataTypeId);
 
-            if (preValues.Any() == true)
-            {
-                var allowedDoctypes = new List<string>();
+            var settings = new MediaPickerSettings();
 
-                if (preValues["onlyImages"] == "1")
-                {
-                    allowedDoctypes.Add("Image");
-                }
-
-                var maxItems = preValues["multiPicker"] == "1" ? 0 : 1;
-
-                return new MediaPickerSettings
-                {
-                    AllowedDoctypes = allowedDoctypes.ToArray(),
-                    MaxItems = maxItems
-                };
-            }
-
-            return null;
+            return PreValueMapper.Map(settings, preValues);
         }
     }
 }
