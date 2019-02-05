@@ -60,7 +60,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        public static object ConvertSourceToObject(PublishedPropertyType propertyType, IEnumerable<IPublishedContent> value)
+        public static object ConvertSourceToObject(PublishedPropertyType propertyType, object source)
         {
             var clrType = propertyType.ClrType;
 
@@ -72,25 +72,50 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
                 ? new List<IPublishedContent>()
                 : TypeHelper.CreateListOfType(innerType);
 
-            if (value != null)
-            {
-                foreach (var item in value)
-                {
-                    var itemType = item.GetType();
+            var items = GetItemsFromSource(source);
 
-                    if (itemType == innerType)
-                    {
-                        list.Add(item);
-                    }
-                    else if (innerType == typeof(IPublishedContent)
+            foreach (var item in items)
+            {
+                var itemType = item.GetType();
+
+                if (itemType != innerType)
+                {
+                    if (innerType == typeof(IPublishedContent)
                         && TypeHelper.IsIPublishedContent(itemType) == true)
                     {
                         list.Add(item);
                     }
                 }
+                else
+                {
+                    list.Add(item);
+                }
             }
 
             return allowsMultiple == true ? list : list.FirstOrNull();
+        }
+
+        private static IEnumerable<IPublishedContent> GetItemsFromSource(object source)
+        {
+            var sourceItems = new List<IPublishedContent>();
+
+            var sourceAsList = source as IEnumerable<IPublishedContent>;
+
+            if (sourceAsList == null)
+            {
+                var sourceAsSingle = source as IPublishedContent;
+
+                if (sourceAsSingle != null)
+                {
+                    sourceItems.Add(sourceAsSingle);
+                }
+            }
+            else
+            {
+                sourceItems.AddRange(sourceAsList);
+            }
+
+            return sourceItems;
         }
     }
 }
