@@ -233,6 +233,7 @@
     <Compile Include="ValueConverters\NestedContentValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Our.Umbraco.SuperValueConverters.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
