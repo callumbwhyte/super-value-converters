@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
+using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
@@ -35,19 +35,9 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var preValues = DataTypeHelper.GetPreValues(propertyType.DataTypeId);
 
-            if (preValues.Any() == true)
-            {
-                var allowedDoctypes = preValues["filter"].Replace(" ", "").Split(',');
-                var maxItems = Convert.ToInt32(preValues["maxNumber"]);
+            var settings = new MNTPSettings();
 
-                return new MNTPSettings
-                {
-                    AllowedDoctypes = allowedDoctypes,
-                    MaxItems = maxItems
-                };
-            }
-
-            return null;
+            return PreValueMapper.Map(settings, preValues);
         }
     }
 }
