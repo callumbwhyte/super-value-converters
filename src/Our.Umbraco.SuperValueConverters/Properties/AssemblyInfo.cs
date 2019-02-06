@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Our.Umbraco.SuperValueConverters")]
 [assembly: AssemblyDescription("A collection of powerful property value converters for cleaner code in Umbraco 7.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Callum Whyte")]
 [assembly: AssemblyProduct("Our.Umbraco.SuperValueConverters")]
 [assembly: AssemblyCopyright("Copyright © 2019 Callum Whyte, and other contributors")]
 [assembly: AssemblyTrademark("")]
