@@ -52,3 +52,9 @@ This project is maintained by [Callum Whyte](https://callumwhyte.com/) and contr
 Copyright &copy; 2019 [Callum Whyte](https://callumwhyte.com/), and other contributors
 
 Licensed under the [MIT License](LICENSE.md).
+
+### Credits
+
+The package logo uses the following icon from the [Noun Project](https://thenounproject.com), licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/):
+
+- [Energy](https://thenounproject.com/scarlett.mckay/collection/misc/?i=1603715) by [Scarlett McKay](https://thenounproject.com/scarlett.mckay/)
