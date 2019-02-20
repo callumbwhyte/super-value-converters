@@ -15,7 +15,7 @@ namespace Our.Umbraco.SuperValueConverters.PreValues
             {
                 var preValueProperty = property.GetCustomAttribute<PreValuePropertyAttribute>();
 
-                if (preValueProperty != null)
+                if (preValueProperty != null && preValues.ContainsKey(preValueProperty.Alias))
                 {
                     var value = preValues[preValueProperty.Alias];
 
