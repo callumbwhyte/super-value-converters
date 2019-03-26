@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.1] - 2019-03-26
+### Added
+* New logo for package
+
+### Fixed
+* Checking for missing prevalues when mapping
+* Handling nulls when mapping prevalues to arrays
+* Resolving Nested Content properties with only one doctype
+
 ## [1.0.0] - 2019-02-06
 ### Added
 * Initial release of SuperValueConverters for Umbraco 7.7
@@ -11,4 +20,5 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 * README file with information about the project and screenshots
 * MIT license in the form of a LICENSE.md file
 
-[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/v1.0.0...v1.0.1
