@@ -49,14 +49,17 @@ To raise a new bug, create an issue on the GitHub repository. To fix a bug or ad
 
 This project is maintained by [Callum Whyte](https://callumwhyte.com/) and contributors. If you have any questions about the project please get in touch on [Twitter](https://twitter.com/callumbwhyte), or by raising an issue on GitHub.
 
+## Credits
+
+The SuperValueConverters logo uses the [Energy](https://thenounproject.com/scarlett.mckay/collection/misc/?i=1603715) icon from the [Noun Project](https://thenounproject.com) by [Scarlett McKay](https://thenounproject.com/scarlett.mckay/), licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
+
+### A special #h5yr to our contributors
+
+* [Lee Kelleher](https://twitter.com/leekelleher)
+* [Robert Foster](https://twitter.com/robertjf72)
+
 ## License
 
 Copyright &copy; 2019 [Callum Whyte](https://callumwhyte.com/), and other contributors
 
 Licensed under the [MIT License](LICENSE.md).
-
-### Credits
-
-The package logo uses the following icon from the [Noun Project](https://thenounproject.com), licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/):
-
-- [Energy](https://thenounproject.com/scarlett.mckay/collection/misc/?i=1603715) by [Scarlett McKay](https://thenounproject.com/scarlett.mckay/)

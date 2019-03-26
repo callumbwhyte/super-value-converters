@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
 using Our.Umbraco.SuperValueConverters.PreValues;
-using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Web.PropertyEditors.ValueConverters;
