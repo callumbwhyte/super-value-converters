@@ -1,5 +1,7 @@
 # Umbraco SuperValueConverters
 
+<img src="docs/img/logo.png?raw=true" alt="Umbraco SuperValueConverters" width="250" align="right" />
+
 [![NuGet release](https://img.shields.io/nuget/v/Our.Umbraco.SuperValueConverters.svg)](https://www.nuget.org/packages/Our.Umbraco.SuperValueConverters/)
 [![Our Umbraco project page](https://img.shields.io/badge/our-umbraco-orange.svg)](https://our.umbraco.com/projects/developer-tools/supervalueconverters/)
 
