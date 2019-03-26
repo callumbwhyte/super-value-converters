@@ -2,6 +2,7 @@
 using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
 using Our.Umbraco.SuperValueConverters.PreValues;
+using Umbraco.Core;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Web.PropertyEditors.ValueConverters;
@@ -20,6 +21,11 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             var pickerSettings = GetSettings(propertyType);
 
             return BaseValueConverter.GetPropertyValueType(propertyType, pickerSettings);
+        }
+
+        public override bool IsConverter(PublishedPropertyType propertyType)
+        {
+            return propertyType.PropertyEditorAlias.Equals(Constants.PropertyEditors.NestedContentAlias);
         }
 
         public override object ConvertSourceToObject(PublishedPropertyType propertyType, object source, bool preview)
