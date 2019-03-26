@@ -11,6 +11,7 @@ namespace Our.Umbraco.SuperValueConverters
             PropertyValueConvertersResolver.Current.RemoveType<MediaPickerPropertyConverter>();
             PropertyValueConvertersResolver.Current.RemoveType<MultiNodeTreePickerPropertyConverter>();
             PropertyValueConvertersResolver.Current.RemoveType<NestedContentManyValueConverter>();
+            PropertyValueConvertersResolver.Current.RemoveType<NestedContentSingleValueConverter>();
         }
     }
 }
