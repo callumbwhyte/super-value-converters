@@ -68,7 +68,14 @@ namespace Our.Umbraco.SuperValueConverters.PreValues
 
         private static string[] ConvertToStringArray(string input, char separator = ',')
         {
-            return input.Replace(" ", "").Split(separator);
+            string[] value = { };
+
+            if (input != null)
+            {
+                value = input.Replace(" ", "").Split(separator);
+            }
+
+            return value;
         }
     }
 }
