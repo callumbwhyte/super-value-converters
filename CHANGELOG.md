@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/). 
+
+## [1.1.0] - 2019-04-14
+### Added
+* Returning composition interfaces where more than one doctype is allowed and both inherit from the same models
+* Updates to documentation on using compositions with Models Builder
+
+### Fixed
+* Protection level of extensions, helpers and pre-value mapper is now internal
 
 ## [1.0.1] - 2019-03-26
 ### Added
@@ -20,5 +28,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 * README file with information about the project and screenshots
 * MIT license in the form of a LICENSE.md file
 
-[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/v1.0.0...v1.0.1
