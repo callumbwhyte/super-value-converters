@@ -214,6 +214,7 @@
     <Compile Include="Attributes\MediaPickerMaxItemsFilterAttribute.cs" />
     <Compile Include="Attributes\NestedContentAllowedDoctypesFilterAttribute.cs" />
     <Compile Include="Boostrapper.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Helpers\DataTypeHelper.cs" />
     <Compile Include="Helpers\ModelsBuilderHelper.cs" />
