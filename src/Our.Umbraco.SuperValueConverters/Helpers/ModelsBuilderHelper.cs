@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
-    public class ModelsBuilderHelper
+    internal class ModelsBuilderHelper
     {
         private const string Prefix = "Umbraco.ModelsBuilder.";
 

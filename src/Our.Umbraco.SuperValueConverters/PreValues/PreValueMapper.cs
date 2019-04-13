@@ -4,7 +4,7 @@ using Our.Umbraco.SuperValueConverters.PreValues.Attributes;
 
 namespace Our.Umbraco.SuperValueConverters.PreValues
 {
-    public class PreValueMapper
+    internal class PreValueMapper
     {
         public static T Map<T>(T model, IDictionary<string, string> preValues)
             where T : class

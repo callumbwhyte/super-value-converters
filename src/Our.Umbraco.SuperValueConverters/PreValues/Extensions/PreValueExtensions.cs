@@ -4,7 +4,7 @@ using Umbraco.Core.Models;
 
 namespace Our.Umbraco.SuperValueConverters.PreValues.Extensions
 {
-    public static class PreValueExtensions
+    internal static class PreValueExtensions
     {
         public static T Map<T>(this PreValueCollection preValues)
             where T : class, new()
