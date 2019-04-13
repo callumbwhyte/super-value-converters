@@ -4,7 +4,7 @@ using Umbraco.Core;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
-    public class DataTypeHelper
+    internal class DataTypeHelper
     {
         public static IDictionary<string, string> GetPreValues(int dataTypeId)
         {

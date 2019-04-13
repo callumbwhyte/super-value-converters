@@ -6,7 +6,7 @@ using Umbraco.Core.Models;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
-    public class TypeHelper
+    internal class TypeHelper
     {
         public static Type GetType(string typeName, string namespaceName = null)
         {
