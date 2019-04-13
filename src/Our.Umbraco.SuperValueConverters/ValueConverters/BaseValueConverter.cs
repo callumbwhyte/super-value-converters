@@ -98,6 +98,17 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var types = TypeHelper.GetTypes(pickerSettings.AllowedDoctypes, modelsNamespace);
 
+            if (pickerSettings.AllowedDoctypes.Length > 1)
+            {
+                var interfaces = types.Select(x => x
+                        .GetInterfaces()
+                        .Where(i => i.IsPublic));
+
+                var sharedInterfaces = interfaces.IntersectMany();
+
+                return sharedInterfaces.LastOrDefault();
+            }
+
             return types.FirstOrDefault();
         }
 
