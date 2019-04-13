@@ -31,8 +31,6 @@ To [install from NuGet](https://www.nuget.org/packages/Our.Umbraco.SuperValueCon
 
 Where a picker that returns multiple items _(such as [MNTP](https://our.umbraco.com/documentation/Getting-Started/Backoffice/Property-Editors/Built-in-Property-Editors/Multinode-Treepicker2) or [Nested Content](https://our.umbraco.com/documentation/Getting-Started/Backoffice/Property-Editors/Built-in-Property-Editors/Nested-Content))_ has been configured to only allow a single item to be selected _(via it's "maxItems" setting)_, the returned value will now be a single `IPublishedContent` rather than `IEnumerable<IPublishedContent>`.
 
-Even better - it works seamlessly with [Models Builder](https://our.umbraco.com/documentation/Reference/Templating/Modelsbuilder/) _(if you're using it)_ to return the correct model types from pickers rather than `IPublishedContent`. If a picker has been configured to only allow items of a specific doctype, the returned value's type will be already cast to the relevant model.
-
 Supported value converters will no longer return `null` if no value has been picked - an empty collection will be returned instead, preventing the need for null checks.
 
 Currently the following datatypes are supported:
@@ -40,6 +38,14 @@ Currently the following datatypes are supported:
 * Media Picker
 * Multi-Node Tree Picker
 * Nested Content
+
+### Models Builder
+
+SuperValueConverters works seamlessly with [Models Builder](https://our.umbraco.com/documentation/Reference/Templating/Modelsbuilder/) _(if you're using it)_ to return the correct model types from pickers rather than `IPublishedContent`.
+
+Where a picker has been configured to only allow items of a specific doctype, the returned value will be already cast to the relevant Models Builder generated model.
+
+In cases where an allowed doctype uses [compositions](https://our.umbraco.com/Documentation/Reference/Templating/Modelsbuilder/Using-Interfaces) Models Builder will generate an interface for that model. If more than one allowed doctype on a given picker implements the same interface, the returned value will be cast to the shared interface rather than the default `IPublishedContent`.
 
 ### Contribution guidelines
 
