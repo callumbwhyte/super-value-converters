@@ -32,6 +32,11 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
             return null;
         }
 
+        public static IEnumerable<Type> GetTypes(string[] typeNames, string namespaceName = null)
+        {
+            return typeNames.Select(x => GetType(x, namespaceName));
+        }
+
         public static bool IsIEnumerable(Type type)
         {
             return typeof(IEnumerable).IsAssignableFrom(type);

@@ -39,12 +39,9 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var modelType = typeof(IPublishedContent);
 
-            if (pickerSettings.AllowedDoctypes.Count() == 1
-                && ModelsBuilderHelper.IsEnabled() == true)
+            if (ModelsBuilderHelper.IsEnabled() == true)
             {
-                var modelsNamespace = ModelsBuilderHelper.GetNamespace();
-
-                var foundType = TypeHelper.GetType(pickerSettings.AllowedDoctypes.FirstOrDefault(), modelsNamespace);
+                var foundType = GetTypeForPicker(pickerSettings);
 
                 if (foundType != null)
                 {
@@ -93,6 +90,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             }
 
             return allowsMultiple == true ? list : list.FirstOrNull();
+        }
+
+        private static Type GetTypeForPicker(IPickerSettings pickerSettings)
+        {
+            var modelsNamespace = ModelsBuilderHelper.GetNamespace();
+
+            var types = TypeHelper.GetTypes(pickerSettings.AllowedDoctypes, modelsNamespace);
+
+            return types.FirstOrDefault();
         }
 
         private static IEnumerable<IPublishedContent> GetItemsFromSource(object source)
