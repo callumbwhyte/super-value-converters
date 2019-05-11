@@ -16,7 +16,25 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public PropertyCacheLevel GetPropertyCacheLevel(PublishedPropertyType propertyType, PropertyCacheValue cacheValue)
         {
-            return BaseValueConverter.GetPropertyCacheLevel(propertyType, cacheValue);
+            PropertyCacheLevel returnLevel;
+
+            switch (cacheValue)
+            {
+                case PropertyCacheValue.Object:
+                    returnLevel = PropertyCacheLevel.ContentCache;
+                    break;
+                case PropertyCacheValue.Source:
+                    returnLevel = PropertyCacheLevel.Content;
+                    break;
+                case PropertyCacheValue.XPath:
+                    returnLevel = PropertyCacheLevel.Content;
+                    break;
+                default:
+                    returnLevel = PropertyCacheLevel.None;
+                    break;
+            }
+
+            return returnLevel;
         }
 
         public Type GetPropertyValueType(PublishedPropertyType propertyType)
