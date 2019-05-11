@@ -1,7 +1,6 @@
 ﻿using System;
-using Our.Umbraco.SuperValueConverters.Helpers;
+using System.Linq;
 using Our.Umbraco.SuperValueConverters.Models;
-using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models.PublishedContent;
@@ -41,11 +40,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         private IPickerSettings GetSettings(PublishedPropertyType propertyType)
         {
-            var preValues = DataTypeHelper.GetPreValues(propertyType.DataTypeId);
+            var configuration = propertyType.DataType.ConfigurationAs<NestedContentConfiguration>();
 
-            var settings = new NestedContentSettings();
+            var settings = new NestedContentSettings
+            {
+                AllowedDoctypes = configuration.ContentTypes.Select(x => x.Alias).ToArray() ?? new string[] { },
+                MaxItems = configuration.MaxItems.GetValueOrDefault()
+            };
 
-            return PreValueMapper.Map(settings, preValues);
+            return settings;
         }
     }
 }
