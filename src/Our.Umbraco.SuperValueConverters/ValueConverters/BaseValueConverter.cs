@@ -15,13 +15,16 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var modelType = typeof(IPublishedContent);
 
-            if (ModelsBuilderHelper.IsEnabled() == true)
+            if (pickerSettings.AllowedDoctypes.Any())
             {
-                var foundType = GetTypeForPicker(pickerSettings);
-
-                if (foundType != null)
+                if (ModelsBuilderHelper.IsEnabled() == true)
                 {
-                    modelType = foundType;
+                    var foundType = GetTypeForPicker(pickerSettings);
+
+                    if (foundType != null)
+                    {
+                        modelType = foundType;
+                    }
                 }
             }
 
@@ -41,9 +44,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var innerType = allowsMultiple ? TypeHelper.GetInnerType(clrType) : clrType;
 
-            var list = innerType == typeof(IPublishedContent)
-                ? new List<IPublishedContent>()
-                : TypeHelper.CreateListOfType(innerType);
+            var list = TypeHelper.CreateListOfType(innerType);
 
             var items = GetItemsFromSource(source);
 
@@ -74,15 +75,18 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var types = TypeHelper.GetTypes(pickerSettings.AllowedDoctypes, modelsNamespace);
 
-            if (pickerSettings.AllowedDoctypes.Length > 1)
+            if (types.Any())
             {
-                var interfaces = types.Select(x => x
-                        .GetInterfaces()
-                        .Where(i => i.IsPublic));
+                if (pickerSettings.AllowedDoctypes.Length > 1)
+                {
+                    var interfaces = types.Select(x => x
+                            .GetInterfaces()
+                            .Where(i => i.IsPublic));
 
-                var sharedInterfaces = interfaces.IntersectMany();
+                    var sharedInterfaces = interfaces.IntersectMany();
 
-                return sharedInterfaces.LastOrDefault();
+                    return sharedInterfaces.LastOrDefault();
+                }
             }
 
             return types.FirstOrDefault();
