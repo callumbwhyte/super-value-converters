@@ -10,7 +10,7 @@
     "name": "Callum Whyte",
     "url": "https://callumwhyte.com/"
   },
-  "readme": "A collection of powerful property value converters for cleaner code in Umbraco 7.",
+  "readme": "A collection of powerful property value converters for cleaner code in Umbraco",
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-copy": "^1.0.0",
