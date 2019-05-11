@@ -1,16 +1,11 @@
-﻿using Our.Umbraco.SuperValueConverters.Attributes;
-using Our.Umbraco.SuperValueConverters.PreValues.Attributes;
+﻿using System;
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
     public class MediaPickerSettings : IPickerSettings
     {
-        [PreValueProperty("onlyImages")]
-        [MediaPickerAllowedDoctypesFilter]
         public string[] AllowedDoctypes { get; set; }
 
-        [PreValueProperty("multiPicker")]
-        [MediaPickerMaxItemsFilter]
         public int MaxItems { get; set; }
 
         public bool AllowsMultiple()
