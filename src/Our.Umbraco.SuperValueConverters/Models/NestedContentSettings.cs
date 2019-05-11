@@ -3,7 +3,7 @@ using Our.Umbraco.SuperValueConverters.PreValues.Attributes;
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
-    public class NestedContentSettings : IPickerSettings
+    internal class NestedContentSettings : IPickerSettings
     {
         [PreValueProperty("contentTypes")]
         [NestedContentAllowedDoctypesFilter]
