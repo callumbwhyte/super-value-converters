@@ -3,7 +3,7 @@ using Our.Umbraco.SuperValueConverters.PreValues.Attributes;
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
-    public class MediaPickerSettings : IPickerSettings
+    internal class MediaPickerSettings : IPickerSettings
     {
         [PreValueProperty("onlyImages")]
         [MediaPickerAllowedDoctypesFilter]
