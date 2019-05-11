@@ -1,7 +1,5 @@
 ﻿using System;
-using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
-using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Web.PropertyEditors;
@@ -34,11 +32,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         private IPickerSettings GetSettings(PublishedPropertyType propertyType)
         {
-            var preValues = DataTypeHelper.GetPreValues(propertyType.DataTypeId);
+            var configuration = propertyType.DataType.ConfigurationAs<MediaPickerConfiguration>();
 
-            var settings = new MediaPickerSettings();
+            var settings = new MediaPickerSettings
+            {
+                AllowedDoctypes = configuration.OnlyImages ? new string[] { "images" } : new string[] { },
+                MaxItems = configuration.Multiple ? 1 : 0
+            };
 
-            return PreValueMapper.Map(settings, preValues);
+            return settings;
         }
     }
 }

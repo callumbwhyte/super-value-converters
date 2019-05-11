@@ -1,7 +1,5 @@
 ﻿using System;
-using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
-using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Web.PropertyEditors;
@@ -34,11 +32,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         private IPickerSettings GetSettings(PublishedPropertyType propertyType)
         {
-            var preValues = DataTypeHelper.GetPreValues(propertyType.DataTypeId);
+            var configuration = propertyType.DataType.ConfigurationAs<MultiNodePickerConfiguration>();
 
-            var settings = new MNTPSettings();
+            var settings = new MNTPSettings
+            {
+                AllowedDoctypes = configuration.Filter.Split(',') ?? new string[] { },
+                MaxItems = configuration.MaxNumber
+            };
 
-            return PreValueMapper.Map(settings, preValues);
+            return settings;
         }
     }
 }
