@@ -1,26 +1,18 @@
-﻿using System;
-using Our.Umbraco.SuperValueConverters.Helpers;
+﻿using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
 using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core;
 using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Core.PropertyEditors;
 using Umbraco.Web.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public class NestedContentValueConverter : NestedContentManyValueConverter, IPropertyValueConverterMeta
+    public class NestedContentValueConverter : SuperValueConverter
     {
-        public override PropertyCacheLevel GetPropertyCacheLevel(PublishedPropertyType propertyType, PropertyCacheValue cacheValue)
+        public NestedContentValueConverter()
+            : base(new NestedContentManyValueConverter())
         {
-            return BaseValueConverter.GetPropertyCacheLevel(propertyType, cacheValue);
-        }
 
-        public override Type GetPropertyValueType(PublishedPropertyType propertyType)
-        {
-            var pickerSettings = GetSettings(propertyType);
-
-            return BaseValueConverter.GetPropertyValueType(propertyType, pickerSettings);
         }
 
         public override bool IsConverter(PublishedPropertyType propertyType)
@@ -28,14 +20,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return propertyType.PropertyEditorAlias.Equals(Constants.PropertyEditors.NestedContentAlias);
         }
 
-        public override object ConvertSourceToObject(PublishedPropertyType propertyType, object source, bool preview)
-        {
-            var value = base.ConvertSourceToObject(propertyType, source, preview);
-
-            return BaseValueConverter.ConvertSourceToObject(propertyType, value);
-        }
-
-        private IPickerSettings GetSettings(PublishedPropertyType propertyType)
+        public override IPickerSettings GetSettings(PublishedPropertyType propertyType)
         {
             var preValues = DataTypeHelper.GetPreValues(propertyType.DataTypeId);
 
