@@ -3,17 +3,21 @@ using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
 using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
-using Umbraco.Web.PropertyEditors.ValueConverters;
+using Umbraco.Web.PropertyEditors;
+using Umbraco.Web.PublishedCache;
+using Core = Umbraco.Web.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public class NestedContentValueConverter : NestedContentManyValueConverter, IPropertyValueConverterMeta
+    public class NestedContentValueConverter : Core.NestedContentManyValueConverter
     {
-        public override PropertyCacheLevel GetPropertyCacheLevel(PublishedPropertyType propertyType, PropertyCacheValue cacheValue)
+        public NestedContentValueConverter(IPublishedSnapshotAccessor publishedSnapshotAccessor, IPublishedModelFactory publishedModelFactory, IProfilingLogger proflog)
+            : base(publishedSnapshotAccessor, publishedModelFactory, proflog)
         {
-            return BaseValueConverter.GetPropertyCacheLevel(propertyType, cacheValue);
+
         }
 
         public override Type GetPropertyValueType(PublishedPropertyType propertyType)
@@ -25,14 +29,14 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public override bool IsConverter(PublishedPropertyType propertyType)
         {
-            return propertyType.PropertyEditorAlias.Equals(Constants.PropertyEditors.NestedContentAlias);
+            return propertyType.EditorAlias.Equals(Constants.PropertyEditors.Aliases.NestedContent);
         }
 
-        public override object ConvertSourceToObject(PublishedPropertyType propertyType, object source, bool preview)
+        public override object ConvertIntermediateToObject(IPublishedElement owner, PublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
         {
-            var value = base.ConvertSourceToObject(propertyType, source, preview);
+            var value = base.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
 
-            return BaseValueConverter.ConvertSourceToObject(propertyType, value);
+            return BaseValueConverter.ConvertIntermediateToObject(propertyType, value);
         }
 
         private IPickerSettings GetSettings(PublishedPropertyType propertyType)

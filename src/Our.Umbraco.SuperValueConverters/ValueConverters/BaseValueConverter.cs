@@ -6,35 +6,11 @@ using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Core.PropertyEditors;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public class BaseValueConverter
     {
-        public static PropertyCacheLevel GetPropertyCacheLevel(PublishedPropertyType propertyType, PropertyCacheValue cacheValue)
-        {
-            PropertyCacheLevel returnLevel;
-
-            switch (cacheValue)
-            {
-                case PropertyCacheValue.Object:
-                    returnLevel = PropertyCacheLevel.ContentCache;
-                    break;
-                case PropertyCacheValue.Source:
-                    returnLevel = PropertyCacheLevel.Content;
-                    break;
-                case PropertyCacheValue.XPath:
-                    returnLevel = PropertyCacheLevel.Content;
-                    break;
-                default:
-                    returnLevel = PropertyCacheLevel.None;
-                    break;
-            }
-
-            return returnLevel;
-        }
-
         public static Type GetPropertyValueType(PublishedPropertyType propertyType, IPickerSettings pickerSettings)
         {
             var modelType = typeof(IPublishedContent);
@@ -57,7 +33,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        public static object ConvertSourceToObject(PublishedPropertyType propertyType, object source)
+        public static object ConvertIntermediateToObject(PublishedPropertyType propertyType, object source)
         {
             var clrType = propertyType.ClrType;
 

@@ -4,29 +4,32 @@ using Our.Umbraco.SuperValueConverters.Models;
 using Our.Umbraco.SuperValueConverters.PreValues;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
-using Umbraco.Web.PropertyEditors.ValueConverters;
+using Umbraco.Web.PropertyEditors;
+using Umbraco.Web.PublishedCache;
+using Core = Umbraco.Web.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public class MultiNodeTreePickerValueConverter : MultiNodeTreePickerPropertyConverter, IPropertyValueConverterMeta
+    public class MultiNodeTreePickerValueConverter : Core.MultiNodeTreePickerValueConverter
     {
-        public PropertyCacheLevel GetPropertyCacheLevel(PublishedPropertyType propertyType, PropertyCacheValue cacheValue)
+        public MultiNodeTreePickerValueConverter(IPublishedSnapshotAccessor publishedSnapshotAccessor)
+            : base(publishedSnapshotAccessor)
         {
-            return BaseValueConverter.GetPropertyCacheLevel(propertyType, cacheValue);
+
         }
 
-        public Type GetPropertyValueType(PublishedPropertyType propertyType)
+        public override Type GetPropertyValueType(PublishedPropertyType propertyType)
         {
             var pickerSettings = GetSettings(propertyType);
 
             return BaseValueConverter.GetPropertyValueType(propertyType, pickerSettings);
         }
 
-        public override object ConvertSourceToObject(PublishedPropertyType propertyType, object source, bool preview)
+        public override object ConvertIntermediateToObject(IPublishedElement owner, PublishedPropertyType propertyType, PropertyCacheLevel cacheLevel, object source, bool preview)
         {
-            var value = base.ConvertSourceToObject(propertyType, source, preview);
+            var value = base.ConvertIntermediateToObject(owner, propertyType, cacheLevel, source, preview);
 
-            return BaseValueConverter.ConvertSourceToObject(propertyType, value);
+            return BaseValueConverter.ConvertIntermediateToObject(propertyType, value);
         }
 
         private IPickerSettings GetSettings(PublishedPropertyType propertyType)
