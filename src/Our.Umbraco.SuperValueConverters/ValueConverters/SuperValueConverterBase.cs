@@ -150,6 +150,11 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return sourceItems;
         }
 
+        public override bool IsConverter(PublishedPropertyType propertyType)
+        {
+            return _baseValueConverter.IsConverter(propertyType);
+        }
+
         public abstract IPickerSettings GetSettings(PublishedPropertyType propertyType);
     }
 }
