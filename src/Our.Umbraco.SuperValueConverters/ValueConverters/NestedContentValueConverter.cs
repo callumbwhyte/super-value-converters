@@ -7,7 +7,7 @@ using Umbraco.Web.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public class NestedContentValueConverter : SuperValueConverter
+    public class NestedContentValueConverter : SuperValueConverterBase
     {
         public NestedContentValueConverter()
             : base(new NestedContentManyValueConverter())

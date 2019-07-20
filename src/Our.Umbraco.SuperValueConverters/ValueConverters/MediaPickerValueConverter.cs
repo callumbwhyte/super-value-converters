@@ -6,7 +6,7 @@ using Umbraco.Web.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public class MediaPickerValueConverter : SuperValueConverter
+    public class MediaPickerValueConverter : SuperValueConverterBase
     {
         public MediaPickerValueConverter()
             : base(new MediaPickerPropertyConverter())
