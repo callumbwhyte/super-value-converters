@@ -48,7 +48,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var modelType = typeof(IPublishedContent);
 
-            if (settings.AllowedDoctypes.Any())
+            if (settings.AllowedDoctypes.Any() == true)
             {
                 if (ModelsBuilderHelper.IsEnabled() == true)
                 {
@@ -75,13 +75,13 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var types = TypeHelper.GetTypes(pickerSettings.AllowedDoctypes, modelsNamespace);
 
-            if (types.Any())
+            if (types.Any() == true)
             {
                 if (pickerSettings.AllowedDoctypes.Length > 1)
                 {
                     var interfaces = types.Select(x => x
                             .GetInterfaces()
-                            .Where(i => i.IsPublic));
+                            .Where(i => i.IsInterface == true && i.IsPublic));
 
                     var sharedInterfaces = interfaces.IntersectMany();
 
