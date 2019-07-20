@@ -150,9 +150,6 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return sourceItems;
         }
 
-        public virtual IPickerSettings GetSettings(PublishedPropertyType propertyType)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract IPickerSettings GetSettings(PublishedPropertyType propertyType);
     }
 }
