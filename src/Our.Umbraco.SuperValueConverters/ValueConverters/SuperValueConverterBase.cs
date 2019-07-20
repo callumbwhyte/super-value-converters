@@ -10,11 +10,11 @@ using Umbraco.Core.PropertyEditors;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public abstract class SuperValueConverter : PropertyValueConverterBase, IPropertyValueConverterMeta
+    public abstract class SuperValueConverterBase : PropertyValueConverterBase, IPropertyValueConverterMeta
     {
         private IPropertyValueConverter _baseValueConverter;
 
-        public SuperValueConverter(IPropertyValueConverter baseValueConverter)
+        public SuperValueConverterBase(IPropertyValueConverter baseValueConverter)
         {
             _baseValueConverter = baseValueConverter;
         }

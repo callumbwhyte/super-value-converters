@@ -6,7 +6,7 @@ using Umbraco.Web.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public class MultiNodeTreePickerValueConverter : SuperValueConverter
+    public class MultiNodeTreePickerValueConverter : SuperValueConverterBase
     {
         public MultiNodeTreePickerValueConverter()
             : base(new MultiNodeTreePickerPropertyConverter())
