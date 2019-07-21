@@ -148,12 +148,25 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             }
 
             return sourceItems;
+
+        #region Base overrides
+
+        public override object ConvertDataToSource(PublishedPropertyType propertyType, object source, bool preview)
+        {
+            return _baseValueConverter.ConvertDataToSource(propertyType, source, preview);
+        }
+
+        public override object ConvertSourceToXPath(PublishedPropertyType propertyType, object source, bool preview)
+        {
+            return _baseValueConverter.ConvertSourceToXPath(propertyType, source, preview);
         }
 
         public override bool IsConverter(PublishedPropertyType propertyType)
         {
             return _baseValueConverter.IsConverter(propertyType);
         }
+
+        #endregion
 
         public abstract IPickerSettings GetSettings(PublishedPropertyType propertyType);
     }
