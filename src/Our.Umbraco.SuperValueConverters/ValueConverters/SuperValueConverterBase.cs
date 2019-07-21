@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Our.Umbraco.SuperValueConverters.Extensions;
@@ -100,36 +101,16 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             bool allowsMultiple = TypeHelper.IsIEnumerable(clrType);
 
-            var innerType = allowsMultiple ? TypeHelper.GetInnerType(clrType) : clrType;
+            var modelType = allowsMultiple == true ? TypeHelper.GetInnerType(clrType) : clrType;
 
-            var list = TypeHelper.CreateListOfType(innerType);
+            var castItems = CastSourceToList(value, modelType);
 
-            var items = GetItemsFromSource(value);
-
-            foreach (var item in items)
-            {
-                var itemType = item.GetType();
-
-                if (itemType != innerType)
-                {
-                    if (innerType == typeof(IPublishedContent)
-                        && TypeHelper.IsIPublishedContent(itemType) == true)
-                    {
-                        list.Add(item);
-                    }
-                }
-                else
-                {
-                    list.Add(item);
-                }
-            }
-
-            return allowsMultiple == true ? list : list.FirstOrNull();
+            return allowsMultiple == true ? castItems : castItems.FirstOrNull();
         }
 
-        private static IEnumerable<IPublishedContent> GetItemsFromSource(object source)
+        private static IList CastSourceToList(object source, Type modelType)
         {
-            var sourceItems = new List<IPublishedContent>();
+            var castItems = TypeHelper.CreateListOfType(modelType);
 
             var sourceAsList = source as IEnumerable<IPublishedContent>;
 
@@ -139,15 +120,28 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
                 if (sourceAsSingle != null)
                 {
-                    sourceItems.Add(sourceAsSingle);
+                    if (TypeHelper.IsAssignable(modelType, sourceAsSingle.GetType()) == true)
+                    {
+                        castItems.Add(sourceAsSingle);
+                    }
                 }
             }
             else
             {
-                sourceItems.AddRange(sourceAsList);
+                foreach (var item in sourceAsList)
+                {
+                    if (item != null)
+                    {
+                        if (TypeHelper.IsAssignable(modelType, item.GetType()) == true)
+                        {
+                            castItems.Add(item);
+                        }
+                    }
+                }
             }
 
-            return sourceItems;
+            return castItems;
+        }
 
         #region Base overrides
 
