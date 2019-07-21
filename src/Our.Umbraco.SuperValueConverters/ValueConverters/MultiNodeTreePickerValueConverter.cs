@@ -17,7 +17,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var configuration = propertyType.DataType.ConfigurationAs<MultiNodePickerConfiguration>();
 
-            var settings = new MNTPSettings
+            var settings = new PickerSettings
             {
                 AllowedTypes = configuration.Filter.Split(',') ?? new string[] { },
                 MaxItems = configuration.MaxNumber

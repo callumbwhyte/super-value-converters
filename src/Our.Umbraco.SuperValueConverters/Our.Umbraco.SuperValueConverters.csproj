@@ -234,8 +234,7 @@
     <Compile Include="Helpers\ModelsBuilderHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\IPickerSettings.cs" />
-    <Compile Include="Models\MNTPSettings.cs" />
-    <Compile Include="Models\NestedContentSettings.cs" />
+    <Compile Include="Models\PickerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\MultiNodeTreePickerComposer.cs" />
     <Compile Include="Startup\NestedContentComposer.cs" />

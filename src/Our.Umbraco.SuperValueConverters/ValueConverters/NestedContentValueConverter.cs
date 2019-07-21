@@ -24,7 +24,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var configuration = propertyType.DataType.ConfigurationAs<NestedContentConfiguration>();
 
-            var settings = new NestedContentSettings
+            var settings = new PickerSettings
             {
                 AllowedTypes = configuration.ContentTypes.Select(x => x.Alias).ToArray() ?? new string[] { },
                 MaxItems = configuration.MaxItems.GetValueOrDefault()
