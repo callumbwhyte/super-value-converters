@@ -12,6 +12,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
+                .Where(x => x != null)
                 .Where(x => x.IsClass);
 
             if (string.IsNullOrEmpty(namespaceName) == false)
