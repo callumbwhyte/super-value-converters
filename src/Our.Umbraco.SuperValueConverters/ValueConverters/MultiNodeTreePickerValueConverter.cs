@@ -19,7 +19,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var settings = new MNTPSettings
             {
-                AllowedDoctypes = configuration.Filter.Split(',') ?? new string[] { },
+                AllowedTypes = configuration.Filter.Split(',') ?? new string[] { },
                 MaxItems = configuration.MaxNumber
             };
 

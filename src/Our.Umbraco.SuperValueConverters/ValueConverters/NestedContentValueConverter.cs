@@ -26,7 +26,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var settings = new NestedContentSettings
             {
-                AllowedDoctypes = configuration.ContentTypes.Select(x => x.Alias).ToArray() ?? new string[] { },
+                AllowedTypes = configuration.ContentTypes.Select(x => x.Alias).ToArray() ?? new string[] { },
                 MaxItems = configuration.MaxItems.GetValueOrDefault()
             };
 
