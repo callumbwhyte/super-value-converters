@@ -4,7 +4,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
 {
     internal class MNTPSettings : IPickerSettings
     {
-        public string[] AllowedDoctypes { get; set; }
+        public string[] AllowedTypes { get; set; }
 
         public int MaxItems { get; set; }
 

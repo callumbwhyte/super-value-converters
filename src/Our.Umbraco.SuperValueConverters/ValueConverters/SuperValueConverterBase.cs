@@ -25,11 +25,11 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var modelType = typeof(IPublishedContent);
 
-            if (settings.AllowedDoctypes.Any() == true)
+            if (settings.AllowedTypes.Any() == true)
             {
                 if (ModelsBuilderHelper.IsEnabled() == true)
                 {
-                    var foundType = GetTypeForAllowedDoctypes(settings.AllowedDoctypes);
+                    var foundType = GetTypeForAllowedTypes(settings.AllowedTypes);
 
                     if (foundType != null)
                     {
@@ -46,15 +46,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        private static Type GetTypeForAllowedDoctypes(string[] allowedDoctypes)
+        private static Type GetTypeForAllowedTypes(string[] allowedTypes)
         {
             var modelsNamespace = ModelsBuilderHelper.GetNamespace();
 
-            var types = TypeHelper.GetTypes(allowedDoctypes, modelsNamespace);
+            var types = TypeHelper.GetTypes(allowedTypes, modelsNamespace);
 
             if (types.Any() == true)
             {
-                if (allowedDoctypes.Length > 1)
+                if (allowedTypes.Length > 1)
                 {
                     var interfaces = types.Select(x => x
                             .GetInterfaces()

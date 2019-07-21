@@ -4,7 +4,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
 {
     public interface IPickerSettings
     {
-        string[] AllowedDoctypes { get; set; }
+        string[] AllowedTypes { get; set; }
         int MaxItems { get; set; }
         bool AllowsMultiple();
     }
