@@ -2,7 +2,7 @@
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
-    public class MNTPSettings : IPickerSettings
+    internal class MNTPSettings : IPickerSettings
     {
         public string[] AllowedDoctypes { get; set; }
 
