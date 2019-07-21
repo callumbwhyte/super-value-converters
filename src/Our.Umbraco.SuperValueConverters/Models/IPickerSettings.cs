@@ -6,6 +6,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
     {
         string[] AllowedTypes { get; set; }
         int MaxItems { get; set; }
+        Type DefaultType { get; set; }
         bool AllowsMultiple();
     }
 }
