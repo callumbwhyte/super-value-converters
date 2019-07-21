@@ -23,17 +23,17 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var settings = GetSettings(propertyType);
 
-            var modelType = typeof(IPublishedContent);
+            var modelType = settings.DefaultType ?? typeof(IPublishedContent);
 
             if (settings.AllowedTypes.Any() == true)
             {
                 if (ModelsBuilderHelper.IsEnabled() == true)
                 {
-                    var foundType = GetTypeForAllowedTypes(settings.AllowedTypes);
+                    var returnType = GetTypeForAllowedTypes(settings.AllowedTypes);
 
-                    if (foundType != null)
+                    if (returnType != null)
                     {
-                        modelType = foundType;
+                        modelType = returnType;
                     }
                 }
             }
@@ -88,11 +88,11 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var castItems = TypeHelper.CreateListOfType(modelType);
 
-            var sourceAsList = source as IEnumerable<IPublishedContent>;
+            var sourceAsList = source as IEnumerable<IPublishedElement>;
 
             if (sourceAsList == null)
             {
-                var sourceAsSingle = source as IPublishedContent;
+                var sourceAsSingle = source as IPublishedElement;
 
                 if (sourceAsSingle != null)
                 {
