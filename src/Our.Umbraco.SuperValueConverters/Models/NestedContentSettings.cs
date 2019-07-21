@@ -2,7 +2,7 @@
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
-    public class NestedContentSettings : IPickerSettings
+    internal class NestedContentSettings : IPickerSettings
     {
         public string[] AllowedDoctypes { get; set; }
 

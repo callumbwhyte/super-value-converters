@@ -244,6 +244,7 @@
     <Compile Include="ValueConverters\MediaPickerValueConverter.cs" />
     <Compile Include="ValueConverters\MultiNodeTreePickerValueConverter.cs" />
     <Compile Include="ValueConverters\NestedContentValueConverter.cs" />
+    <Compile Include="ValueConverters\SuperValueConverterBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Our.Umbraco.SuperValueConverters.nuspec" />

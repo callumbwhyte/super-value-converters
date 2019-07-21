@@ -2,7 +2,7 @@
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
-    public class MediaPickerSettings : IPickerSettings
+    internal class MediaPickerSettings : IPickerSettings
     {
         public string[] AllowedDoctypes { get; set; }
 

@@ -49,7 +49,7 @@ Where a picker has been configured to only allow items of a specific doctype, th
 
 In cases where an allowed doctype uses [compositions](https://our.umbraco.com/Documentation/Reference/Templating/Modelsbuilder/Using-Interfaces) Models Builder will generate an interface for that model. If more than one allowed doctype on a given picker implements the same interface, the returned value will be cast to the shared interface rather than the default `IPublishedContent`.
 
-### Contribution guidelines
+## Contribution guidelines
 
 To raise a new bug, create an issue on the GitHub repository. To fix a bug or add new features, fork the repository and send a pull request with your changes. Feel free to add ideas to the repository's issues list if you would to discuss anything related to the library.
 

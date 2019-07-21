@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Umbraco.Core.Models.PublishedContent;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
@@ -12,6 +11,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
+                .Where(x => x != null)
                 .Where(x => x.IsClass);
 
             if (string.IsNullOrEmpty(namespaceName) == false)
@@ -34,22 +34,26 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
 
         public static IEnumerable<Type> GetTypes(string[] typeNames, string namespaceName = null)
         {
-            return typeNames.Select(x => GetType(x, namespaceName));
-        }
+            var types = typeNames
+                .Select(x => GetType(x, namespaceName))
+                .Where(x => x != null);
 
-        public static bool IsIEnumerable(Type type)
-        {
-            return typeof(IEnumerable).IsAssignableFrom(type);
-        }
-
-        public static bool IsIPublishedContent(Type type)
-        {
-            return typeof(IPublishedContent).IsAssignableFrom(type);
+            return types ?? Enumerable.Empty<Type>();
         }
 
         public static Type GetInnerType(Type type)
         {
             return type.GetGenericArguments().FirstOrDefault();
+        }
+
+        public static bool IsAssignable(Type destinationType, Type type)
+        {
+            return destinationType.IsAssignableFrom(type);
+        }
+
+        public static bool IsIEnumerable(Type type)
+        {
+            return typeof(IEnumerable).IsAssignableFrom(type);
         }
 
         public static IList CreateListOfType(Type type)
