@@ -1,7 +1,6 @@
-﻿using Our.Umbraco.SuperValueConverters.ValueConverters;
-using Umbraco.Core;
+﻿using Our.Umbraco.SuperValueConverters.Extensions;
 using Umbraco.Core.Composing;
-using Core = Umbraco.Web.PropertyEditors.ValueConverters;
+using Umbraco.Web.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.Startup
 {
@@ -9,8 +8,7 @@ namespace Our.Umbraco.SuperValueConverters.Startup
     {
         public void Compose(Composition composition)
         {
-            composition.PropertyValueConverters()
-                .Replace<Core.MediaPickerValueConverter, MediaPickerValueConverter>();
+            composition.DisableConverter<MediaPickerValueConverter>();
         }
     }
 }
