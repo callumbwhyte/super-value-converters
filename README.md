@@ -37,7 +37,6 @@ Supported value converters will no longer return `null` if no value has been pic
 
 Currently the following datatypes are supported:
 
-* Media Picker
 * Multi-Node Tree Picker
 * Nested Content
 
