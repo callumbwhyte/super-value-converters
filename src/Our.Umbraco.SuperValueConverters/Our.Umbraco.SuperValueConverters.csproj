@@ -240,7 +240,6 @@
     <Compile Include="Startup\MediaPickerComposer.cs" />
     <Compile Include="Startup\MultiNodeTreePickerComposer.cs" />
     <Compile Include="Startup\NestedContentComposer.cs" />
-    <Compile Include="ValueConverters\BaseValueConverter.cs" />
     <Compile Include="ValueConverters\MediaPickerValueConverter.cs" />
     <Compile Include="ValueConverters\MultiNodeTreePickerValueConverter.cs" />
     <Compile Include="ValueConverters\NestedContentValueConverter.cs" />
