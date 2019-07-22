@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <Description>A collection of powerful property value converters for cleaner code in Umbraco</Description>
     <Authors>Callum Whyte</Authors>
     <Copyright>Copyright © 2019 Callum Whyte, and other contributors</Copyright>
@@ -12,7 +12,7 @@
     <RepositoryUrl>https://github.com/callumbwhyte/super-value-converters</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Umbraco</PackageTags>
-    <Version>2.0.0</Version>
+    <Version>0.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
