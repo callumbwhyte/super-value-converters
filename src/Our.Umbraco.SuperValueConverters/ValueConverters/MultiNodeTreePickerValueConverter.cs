@@ -13,7 +13,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         }
 
-        public override IPickerSettings GetSettings(PublishedPropertyType propertyType)
+        public override IPickerSettings GetSettings(IPublishedPropertyType propertyType)
         {
             var configuration = propertyType.DataType.ConfigurationAs<MultiNodePickerConfiguration>();
 
