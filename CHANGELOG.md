@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.1] - 2019-07-25
+### Added
+* Umbraco 8.1 as the minimum required Umbraco version
+
+### Fixed
+* Converters use IPublishedPropertyType for compatibility with Umbraco 8.1
+* Broken links in Changelog
+
 ## [2.0.0] - 2019-07-22
 ### Added
 * Support for Umbraco 8 and `IPublishedElement`
@@ -46,7 +54,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * README file with information about the project and screenshots
 * MIT license in the form of a LICENSE.md file
 
-[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-2.0.0...HEAD
+[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-2.0.1...HEAD
+[2.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-2.0.0...release-2.0.1
 [2.0.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.2.0...release-2.0.0
 [1.2.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.1.0...release-1.2.0
 [1.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.0.1...release-1.1.0
