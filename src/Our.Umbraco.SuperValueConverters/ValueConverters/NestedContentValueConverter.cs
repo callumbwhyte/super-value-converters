@@ -15,12 +15,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         }
 
-        public override bool IsConverter(PublishedPropertyType propertyType)
+        public override bool IsConverter(IPublishedPropertyType propertyType)
         {
             return propertyType.EditorAlias.Equals(Constants.PropertyEditors.Aliases.NestedContent);
         }
 
-        public override IPickerSettings GetSettings(PublishedPropertyType propertyType)
+        public override IPickerSettings GetSettings(IPublishedPropertyType propertyType)
         {
             var configuration = propertyType.DataType.ConfigurationAs<NestedContentConfiguration>();
 
