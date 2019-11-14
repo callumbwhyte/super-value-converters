@@ -58,7 +58,7 @@ This project is maintained by [Callum Whyte](https://callumwhyte.com/) and contr
 
 ## Credits
 
-The SuperValueConverters logo uses the [Energy](https://thenounproject.com/scarlett.mckay/collection/misc/?i=1603715) icon from the [Noun Project](https://thenounproject.com) by [Scarlett McKay](https://thenounproject.com/scarlett.mckay/), licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
+The package logo uses the [Energy](https://thenounproject.com/term/search/1603715/) icon from the [Noun Project](https://thenounproject.com) by [Scarlett McKay](https://thenounproject.com/scarlett.mckay/), licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
 
 ### A special #h5yr to our contributors
 
