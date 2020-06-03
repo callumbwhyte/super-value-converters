@@ -49,7 +49,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var modelType = typeof(IPublishedContent);
 
-            if (settings.AllowedDoctypes.Any() == true)
+            if (settings.AllowedDoctypes != null && settings.AllowedDoctypes.Any() == true)
             {
                 if (ModelsBuilderHelper.IsEnabled() == true)
                 {
