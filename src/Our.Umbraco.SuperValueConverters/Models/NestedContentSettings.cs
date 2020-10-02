@@ -7,7 +7,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
     {
         [PreValueProperty("contentTypes")]
         [NestedContentAllowedDoctypesFilter]
-        public string[] AllowedDoctypes { get; set; }
+        public string[] AllowedDoctypes { get; set; } = new string[] { };
 
         [PreValueProperty("maxItems")]
         public int MaxItems { get; set; }

@@ -7,7 +7,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
     {
         [PreValueProperty("onlyImages")]
         [MediaPickerAllowedDoctypesFilter]
-        public string[] AllowedDoctypes { get; set; }
+        public string[] AllowedDoctypes { get; set; } = new string[] { };
 
         [PreValueProperty("multiPicker")]
         [MediaPickerMaxItemsFilter]
