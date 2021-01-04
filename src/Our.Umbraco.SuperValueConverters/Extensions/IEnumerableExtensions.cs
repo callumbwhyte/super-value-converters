@@ -17,7 +17,7 @@ namespace Our.Umbraco.SuperValueConverters.Extensions
                 }
                 else
                 {
-                    intersection.Intersect(value);
+                    intersection = intersection.Intersect(value);
                 }
             }
 
