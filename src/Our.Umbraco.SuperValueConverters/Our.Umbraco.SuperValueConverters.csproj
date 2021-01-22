@@ -5,13 +5,13 @@
     <Version Condition="'$(BUILD_BUILDNUMBER)' != ''">$(BUILD_BUILDNUMBER)</Version>
     <Description>A collection of powerful property value converters for cleaner code in Umbraco</Description>
     <Authors>Callum Whyte</Authors>
-    <Copyright>Copyright © 2019 Callum Whyte, and other contributors</Copyright>
-    <PackageLicenseUrl>https://github.com/callumbwhyte/super-value-converters/blob/master/LICENSE.md</PackageLicenseUrl>
+    <Copyright>Copyright © 2021 Callum Whyte, and other contributors</Copyright>
+    <PackageLicenseUrl>https://github.com/callumbwhyte/super-value-converters/blob/main/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/callumbwhyte/super-value-converters</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/callumbwhyte/super-value-converters/master/docs/img/logo.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/callumbwhyte/super-value-converters/main/docs/img/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/callumbwhyte/super-value-converters</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageTags>Umbraco</PackageTags>
+    <PackageTags>umbraco converters models-builder</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
