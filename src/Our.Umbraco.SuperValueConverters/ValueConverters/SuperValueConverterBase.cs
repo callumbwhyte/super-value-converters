@@ -43,9 +43,9 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        private static Type GetTypeForAllowedTypes(string[] allowedTypes)
+        private Type GetTypeForAllowedTypes(string[] allowedTypes)
         {
-            var types = TypeHelper.GetTypes(allowedTypes);
+            var types = TypeHelper.GetPublishedModelTypes(allowedTypes);
 
             if (types.Any() == true)
             {
