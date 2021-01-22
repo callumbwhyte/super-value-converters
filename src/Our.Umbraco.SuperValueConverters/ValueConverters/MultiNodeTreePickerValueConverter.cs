@@ -19,9 +19,13 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var settings = new PickerSettings
             {
-                AllowedTypes = configuration.Filter.Split(',') ?? new string[] { },
                 MaxItems = configuration.MaxNumber
             };
+
+            if (string.IsNullOrEmpty(configuration.Filter) == false)
+            {
+                settings.AllowedTypes = configuration.Filter.Split(',');
+            }
 
             return settings;
         }
