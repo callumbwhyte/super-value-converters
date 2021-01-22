@@ -64,6 +64,7 @@ The package logo uses the [Energy](https://thenounproject.com/term/search/160371
 
 * [Lee Kelleher](https://twitter.com/leekelleher)
 * [Robert Foster](https://twitter.com/robertjf72)
+* [Lukasz Koruba](https://github.com/lkoruba)
 
 ## License
 
