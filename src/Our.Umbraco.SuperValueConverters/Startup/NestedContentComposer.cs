@@ -1,4 +1,4 @@
-﻿using Our.Umbraco.SuperValueConverters.Extensions;
+﻿using Our.Umbraco.SuperValueConverters.Composing;
 using Umbraco.Core.Composing;
 using Umbraco.Web.PropertyEditors.ValueConverters;
 
@@ -9,6 +9,7 @@ namespace Our.Umbraco.SuperValueConverters.Startup
         public void Compose(Composition composition)
         {
             composition.DisableConverter<NestedContentManyValueConverter>();
+
             composition.DisableConverter<NestedContentSingleValueConverter>();
         }
     }

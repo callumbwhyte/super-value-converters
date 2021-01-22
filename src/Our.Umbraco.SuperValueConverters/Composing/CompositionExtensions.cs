@@ -3,21 +3,25 @@ using Umbraco.Core;
 using Umbraco.Core.Composing;
 using Umbraco.Core.PropertyEditors;
 
-namespace Our.Umbraco.SuperValueConverters.Extensions
+namespace Our.Umbraco.SuperValueConverters.Composing
 {
-    internal static class CompositionExtensions
+    public static class CompositionExtensions
     {
+        /// <summary>
+        /// De-registers a Property Value Converter while ensuring it remains in the DI container
+        /// </summary>
         public static Composition DisableConverter(this Composition composition, Type converter)
         {
-            // de-register property value converter
             composition.PropertyValueConverters().Remove(converter);
 
-            // ensure the converter remains in the DI container
             composition.Register(converter);
 
             return composition;
         }
 
+        /// <summary>
+        /// De-registers a Property Value Converter while ensuring it remains in the DI container
+        /// </summary>
         public static Composition DisableConverter<T>(this Composition composition)
             where T : class, IPropertyValueConverter
         {
