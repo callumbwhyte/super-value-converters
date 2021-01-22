@@ -75,9 +75,9 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var clrType = propertyType.ClrType;
 
-            bool allowsMultiple = TypeHelper.IsIEnumerable(clrType);
+            bool allowsMultiple = clrType.IsIEnumerable();
 
-            var modelType = allowsMultiple == true ? TypeHelper.GetInnerType(clrType) : clrType;
+            var modelType = allowsMultiple == true ? clrType.GetInnerType() : clrType;
 
             var castItems = CastSourceToList(value, modelType);
 
@@ -86,7 +86,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         private static IList CastSourceToList(object source, Type modelType)
         {
-            var castItems = TypeHelper.CreateListOfType(modelType);
+            var castItems = modelType.CreateList();
 
             var sourceAsList = source as IEnumerable<IPublishedElement>;
 
@@ -96,7 +96,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
                 if (sourceAsSingle != null)
                 {
-                    if (TypeHelper.IsAssignable(modelType, sourceAsSingle.GetType()) == true)
+                    if (modelType.IsAssignableFrom(sourceAsSingle.GetType()) == true)
                     {
                         castItems.Add(sourceAsSingle);
                     }
@@ -108,7 +108,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
                 {
                     if (item != null)
                     {
-                        if (TypeHelper.IsAssignable(modelType, item.GetType()) == true)
+                        if (modelType.IsAssignableFrom(item.GetType()) == true)
                         {
                             castItems.Add(item);
                         }

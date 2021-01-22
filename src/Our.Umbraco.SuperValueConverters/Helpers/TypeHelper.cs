@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,28 +38,6 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
                 .Where(x => x != null);
 
             return types ?? Enumerable.Empty<Type>();
-        }
-
-        public static Type GetInnerType(Type type)
-        {
-            return type.GetGenericArguments().FirstOrDefault();
-        }
-
-        public static bool IsAssignable(Type destinationType, Type type)
-        {
-            return destinationType.IsAssignableFrom(type);
-        }
-
-        public static bool IsIEnumerable(Type type)
-        {
-            return typeof(IEnumerable).IsAssignableFrom(type);
-        }
-
-        public static IList CreateListOfType(Type type)
-        {
-            var listType = typeof(List<>).MakeGenericType(type);
-
-            return (IList)Activator.CreateInstance(listType);
         }
     }
 }
