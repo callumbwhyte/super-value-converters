@@ -27,14 +27,11 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             if (settings.AllowedTypes.Any() == true)
             {
-                if (ModelsBuilderHelper.IsEnabled() == true)
-                {
-                    var returnType = GetTypeForAllowedTypes(settings.AllowedTypes);
+                var returnType = GetTypeForAllowedTypes(settings.AllowedTypes);
 
-                    if (returnType != null)
-                    {
-                        modelType = returnType;
-                    }
+                if (returnType != null)
+                {
+                    modelType = returnType;
                 }
             }
 
@@ -48,9 +45,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         private static Type GetTypeForAllowedTypes(string[] allowedTypes)
         {
-            var modelsNamespace = ModelsBuilderHelper.GetNamespace();
-
-            var types = TypeHelper.GetTypes(allowedTypes, modelsNamespace);
+            var types = TypeHelper.GetTypes(allowedTypes);
 
             if (types.Any() == true)
             {
