@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - 2020-01-22
+### Added
+* Retreiving published content models from Umbraco's type cache
+
+### Fixed
+* Handling data types without allowed doctypes set
+* Accurately finding shared interfaces for types
+
 ## [1.2.0] - 2019-07-22
 ### Added
 * Abstract `SuperValueConverterBase` class to support custom implementations
@@ -36,7 +44,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * README file with information about the project and screenshots
 * MIT license in the form of a LICENSE.md file
 
-[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/callumbwhyte/super-value-converters/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/v1.0.1...v1.1.0
-[1.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/v1.0.0...v1.0.1
+[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.3.0...HEAD
+[1.3.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.2.0...release-1.3.0
+[1.2.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.1.0...release-1.2.0
+[1.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.0.1...release-1.1.0
+[1.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.0.0...release-1.0.1
+[1.0.0]: https://github.com/callumbwhyte/super-value-converters/tree/release-1.0.0

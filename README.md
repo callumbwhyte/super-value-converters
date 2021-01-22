@@ -63,11 +63,12 @@ The package logo uses the [Energy](https://thenounproject.com/term/search/160371
 
 ### A special #h5yr to our contributors
 
-* [Lee Kelleher](https://twitter.com/leekelleher)
-* [Robert Foster](https://twitter.com/robertjf72)
+* [Lee Kelleher](https://github.com/leekelleher)
+* [Robert Foster](https://github.com/robertjf)
+* [Rowan Bottema](https://github.com/rbottema)
 
 ## License
 
-Copyright &copy; 2019 [Callum Whyte](https://callumwhyte.com/), and other contributors
+Copyright &copy; 2021 [Callum Whyte](https://callumwhyte.com/), and other contributors
 
 Licensed under the [MIT License](LICENSE.md).
