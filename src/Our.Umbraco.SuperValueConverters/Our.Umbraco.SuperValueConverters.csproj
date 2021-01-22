@@ -217,7 +217,6 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Helpers\DataTypeHelper.cs" />
-    <Compile Include="Helpers\ModelsBuilderHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\IPickerSettings.cs" />
     <Compile Include="Models\MediaPickerSettings.cs" />

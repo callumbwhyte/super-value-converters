@@ -51,14 +51,11 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             if (settings.AllowedDoctypes.Any() == true)
             {
-                if (ModelsBuilderHelper.IsEnabled() == true)
-                {
-                    var foundType = GetTypeForAllowedDoctypes(settings.AllowedDoctypes);
+                var foundType = GetTypeForAllowedDoctypes(settings.AllowedDoctypes);
 
-                    if (foundType != null)
-                    {
-                        modelType = foundType;
-                    }
+                if (foundType != null)
+                {
+                    modelType = foundType;
                 }
             }
 
@@ -72,9 +69,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         private static Type GetTypeForAllowedDoctypes(string[] allowedDoctypes)
         {
-            var modelsNamespace = ModelsBuilderHelper.GetNamespace();
-
-            var types = TypeHelper.GetTypes(allowedDoctypes, modelsNamespace);
+            var types = TypeHelper.GetTypes(allowedDoctypes);
 
             if (types.Any() == true)
             {
