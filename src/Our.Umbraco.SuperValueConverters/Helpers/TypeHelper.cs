@@ -1,66 +1,34 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Umbraco.Core;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace Our.Umbraco.SuperValueConverters.Helpers
 {
     internal class TypeHelper
     {
-        public static Type GetType(string typeName, string namespaceName = null)
+        public static IEnumerable<Type> GetPublishedModelTypes(string[] typeNames)
         {
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => x != null)
-                .Where(x => x.IsClass);
+            var types = PluginManager.Current.ResolveTypes<PublishedContentModel>();
 
-            if (string.IsNullOrEmpty(namespaceName) == false)
+            foreach (var typeName in typeNames)
             {
-                types = types
-                    .Where(x => x.Namespace != null)
-                    .Where(x => x.Namespace.Equals(namespaceName, StringComparison.InvariantCultureIgnoreCase));
-            }
-
-            foreach (var type in types)
-            {
-                if (type.Name.Equals(typeName, StringComparison.InvariantCultureIgnoreCase))
+                var type = types.FirstOrDefault(x =>
                 {
-                    return type;
+                    var attribute = x.GetCustomAttribute<PublishedContentModelAttribute>(false);
+
+                    var modelName = attribute != null ? attribute.ContentTypeAlias : x.Name;
+
+                    return typeName.Equals(modelName, StringComparison.OrdinalIgnoreCase);
+                });
+
+                if (type != null)
+                {
+                    yield return type;
                 }
             }
-
-            return null;
-        }
-
-        public static IEnumerable<Type> GetTypes(string[] typeNames, string namespaceName = null)
-        {
-            var types = typeNames
-                .Select(x => GetType(x, namespaceName))
-                .Where(x => x != null);
-
-            return types ?? Enumerable.Empty<Type>();
-        }
-
-        public static Type GetInnerType(Type type)
-        {
-            return type.GetGenericArguments().FirstOrDefault();
-        }
-
-        public static bool IsAssignable(Type destinationType, Type type)
-        {
-            return destinationType.IsAssignableFrom(type);
-        }
-
-        public static bool IsIEnumerable(Type type)
-        {
-            return typeof(IEnumerable).IsAssignableFrom(type);
-        }
-
-        public static IList CreateListOfType(Type type)
-        {
-            var listType = typeof(List<>).MakeGenericType(type);
-
-            return (IList)Activator.CreateInstance(listType);
         }
     }
 }
