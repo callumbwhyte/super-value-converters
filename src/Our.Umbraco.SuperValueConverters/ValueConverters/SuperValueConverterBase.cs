@@ -12,11 +12,11 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public abstract class SuperValueConverterBase : PropertyValueConverterBase
     {
-        private IPropertyValueConverter _baseValueConverter;
+        protected IPropertyValueConverter BaseValueConverter;
 
         public SuperValueConverterBase(IPropertyValueConverter baseValueConverter)
         {
-            _baseValueConverter = baseValueConverter;
+            BaseValueConverter = baseValueConverter;
         }
 
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -43,7 +43,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        private Type GetTypeForAllowedTypes(string[] allowedTypes)
+        protected Type GetTypeForAllowedTypes(string[] allowedTypes)
         {
             var types = TypeHelper.GetPublishedModelTypes(allowedTypes);
 
@@ -66,7 +66,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public override object ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
         {
-            var value = _baseValueConverter.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
+            var value = BaseValueConverter.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
 
             var clrType = propertyType.ClrType;
 
@@ -118,17 +118,17 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public override object ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
         {
-            return _baseValueConverter.ConvertIntermediateToXPath(owner, propertyType, referenceCacheLevel, inter, preview);
+            return BaseValueConverter.ConvertIntermediateToXPath(owner, propertyType, referenceCacheLevel, inter, preview);
         }
 
         public override object ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object source, bool preview)
         {
-            return _baseValueConverter.ConvertSourceToIntermediate(owner, propertyType, source, preview);
+            return BaseValueConverter.ConvertSourceToIntermediate(owner, propertyType, source, preview);
         }
 
         public override bool IsConverter(IPublishedPropertyType propertyType)
         {
-            return _baseValueConverter.IsConverter(propertyType);
+            return BaseValueConverter.IsConverter(propertyType);
         }
 
         #endregion
