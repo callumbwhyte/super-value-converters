@@ -45,38 +45,32 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             if (media is IEnumerable<MediaWithCrops> multiMedia)
             {
-                var typedMultiMedia = AdaptAndCast(multiMedia, mediaGenericType);
+                var typedMultiMedia = AdaptList(multiMedia, mediaGenericType);
                 return typedMultiMedia;
             }
 
-            if (media is MediaWithCrops)
+            if (media is MediaWithCrops mediaWithCrops)
             {
-                var typedMedia = Activator.CreateInstance(mediaGenericType, media);
+                var typedMedia = Activator.CreateInstance(mediaGenericType, mediaWithCrops);
                 return typedMedia;
             }
 
             return null;
         }
 
-        private IList AdaptAndCast(IEnumerable<MediaWithCrops> media, Type mediaGeneric)
+        private IList AdaptList(IEnumerable<MediaWithCrops> media, Type mediaGeneric)
         {
             Type listType = typeof(List<>).MakeGenericType(new[] { mediaGeneric });
             IList list = (IList)Activator.CreateInstance(listType);
 
             foreach (var m in media)
             {
-                var typedMedia = AdaptAndCast(m, mediaGeneric);
+                var typedMedia = Activator.CreateInstance(mediaGeneric, m);
                 list.Add(typedMedia);
             }
 
             return list;
         }
-
-        private object AdaptAndCast(MediaWithCrops media, Type mediaGeneric)
-        {
-            return Convert.ChangeType(Activator.CreateInstance(mediaGeneric, media), mediaGeneric);
-        }
-
 
         private Type GetGenericMediaType(IPickerSettings settings)
         {
