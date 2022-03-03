@@ -5,13 +5,13 @@
 [![NuGet release](https://img.shields.io/nuget/v/Our.Umbraco.SuperValueConverters.svg)](https://www.nuget.org/packages/Our.Umbraco.SuperValueConverters/)
 [![Our Umbraco project page](https://img.shields.io/badge/our-umbraco-orange.svg)](https://our.umbraco.com/projects/developer-tools/supervalueconverters/)
 
-_Looking for SuperValueConverters for **Umbraco 7**? Check the [v7/dev](https://github.com/callumbwhyte/super-value-converters/tree/v7/dev) branch._
+_Looking for SuperValueConverters for **Umbraco 9**? Check the [v9/dev](https://github.com/callumbwhyte/super-value-converters/tree/v9/dev) branch._
 
 SuperValueConverters is a collection of powerful property value converters for Umbraco, eliminating the need for casting and null checks on Umbraco picker values in views or controllers and helping to keep code cleaner.
 
 ## Getting started
 
-This package is supported on Umbraco 8.
+SuperValueConverters is supported on Umbraco 8.
 
 Once installed you don't need to do anything to activate SuperValueConverters.
 
@@ -58,7 +58,7 @@ This project is maintained by [Callum Whyte](https://callumwhyte.com/) and contr
 
 ## Credits
 
-The package logo uses the [Energy](https://thenounproject.com/term/search/1603715/) icon from the [Noun Project](https://thenounproject.com) by [Scarlett McKay](https://thenounproject.com/scarlett.mckay/), licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
+The logo uses the [Energy](https://thenounproject.com/term/search/1603715/) icon from the [Noun Project](https://thenounproject.com) by [Scarlett McKay](https://thenounproject.com/scarlett.mckay/), licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
 
 ### A special #h5yr to our contributors
 
