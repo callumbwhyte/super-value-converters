@@ -2,21 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Our.Umbraco.SuperValueConverters.Extensions;
-using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Core.PropertyEditors;
+using Umbraco.Cms.Core.Composing;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.PropertyEditors;
+using Umbraco.Extensions;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public abstract class SuperValueConverterBase : PropertyValueConverterBase
     {
-        private IPropertyValueConverter _baseValueConverter;
+        private readonly IPropertyValueConverter _baseValueConverter;
+        private readonly TypeLoader _typeLoader;
 
-        public SuperValueConverterBase(IPropertyValueConverter baseValueConverter)
+        public SuperValueConverterBase(IPropertyValueConverter baseValueConverter, TypeLoader typeLoader)
         {
             _baseValueConverter = baseValueConverter;
+            _typeLoader = typeLoader;
         }
 
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -45,15 +49,21 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         private Type GetTypeForAllowedTypes(string[] allowedTypes)
         {
-            var types = TypeHelper.GetPublishedModelTypes(allowedTypes);
+            var types = _typeLoader.GetTypes<IPublishedElement>()
+                .Where(type =>
+                {
+                    var attribute = type.GetCustomAttribute<PublishedModelAttribute>(false);
+
+                    var modelName = attribute != null ? attribute.ContentTypeAlias : type.Name;
+
+                    return allowedTypes.InvariantContains(modelName);
+                });
 
             if (types.Any() == true)
             {
                 if (allowedTypes.Length > 1)
                 {
-                    var interfaces = types.Select(x => x
-                            .GetInterfaces()
-                            .Where(i => i.IsPublic));
+                    var interfaces = types.Select(x => x.GetInterfaces().Where(i => i.IsPublic));
 
                     var sharedInterfaces = interfaces.IntersectMany();
 

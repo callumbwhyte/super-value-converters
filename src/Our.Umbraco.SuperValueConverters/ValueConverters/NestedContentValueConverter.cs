@@ -1,16 +1,17 @@
 ﻿using System.Linq;
 using Our.Umbraco.SuperValueConverters.Models;
-using Umbraco.Core;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web.PropertyEditors;
-using Core = Umbraco.Web.PropertyEditors.ValueConverters;
+using Umbraco.Cms.Core;
+using Umbraco.Cms.Core.Composing;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.PropertyEditors;
+using Core = Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public class NestedContentValueConverter : SuperValueConverterBase
     {
-        public NestedContentValueConverter(Core.NestedContentManyValueConverter baseValueConverter)
-            : base(baseValueConverter)
+        public NestedContentValueConverter(Core.NestedContentManyValueConverter baseValueConverter, TypeLoader typeLoader)
+            : base(baseValueConverter, typeLoader)
         {
 
         }
