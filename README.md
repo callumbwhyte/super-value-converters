@@ -65,6 +65,7 @@ The logo uses the [Energy](https://thenounproject.com/term/search/1603715/) icon
 * [Lee Kelleher](https://github.com/leekelleher)
 * [Robert Foster](https://github.com/robertjf)
 * [Lukasz Koruba](https://github.com/lkoruba)
+* [Nik Rimington](https://github.com/NikRimington)
 
 ## License
 
