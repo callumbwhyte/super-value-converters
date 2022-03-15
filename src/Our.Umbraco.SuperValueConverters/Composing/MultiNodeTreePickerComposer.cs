@@ -1,7 +1,6 @@
-﻿using Our.Umbraco.SuperValueConverters.Composing;
-using Our.Umbraco.SuperValueConverters.ValueConverters;
-using Umbraco.Cms.Core.Composing;
+﻿using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.Composing
 {
