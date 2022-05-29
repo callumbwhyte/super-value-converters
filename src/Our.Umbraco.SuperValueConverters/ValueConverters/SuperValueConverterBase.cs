@@ -20,8 +20,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             _baseValueConverter = baseValueConverter;
         }
 
+        /// <summary>
+        /// Property aliases to ignore, using the Core value converter instead
+        /// </summary>
         public virtual string[] IgnoreProperties { get; }
 
+        /// <inheritdoc />
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
             if (IgnoreProperties?.InvariantContains(propertyType.Alias) == true)
@@ -60,8 +64,8 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
                 if (allowedTypes.Length > 1)
                 {
                     var interfaces = types.Select(x => x
-                            .GetInterfaces()
-                            .Where(i => i.IsPublic));
+                        .GetInterfaces()
+                        .Where(i => i.IsPublic));
 
                     var sharedInterfaces = interfaces.IntersectMany();
 
@@ -72,6 +76,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return types.FirstOrDefault();
         }
 
+        /// <inheritdoc />
         public override object ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
         {
             var value = _baseValueConverter.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
@@ -129,16 +134,19 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         #region Base overrides
 
+        /// <inheritdoc />
         public override object ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
         {
             return _baseValueConverter.ConvertIntermediateToXPath(owner, propertyType, referenceCacheLevel, inter, preview);
         }
 
+        /// <inheritdoc />
         public override object ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object source, bool preview)
         {
             return _baseValueConverter.ConvertSourceToIntermediate(owner, propertyType, source, preview);
         }
 
+        /// <inheritdoc />
         public override bool IsConverter(IPublishedPropertyType propertyType)
         {
             return _baseValueConverter.IsConverter(propertyType);
@@ -146,6 +154,9 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         #endregion
 
+        /// <summary>
+        /// Builds the <see cref="IPickerSettings" /> object for the property type
+        /// </summary>
         public abstract IPickerSettings GetSettings(IPublishedPropertyType propertyType);
     }
 }
