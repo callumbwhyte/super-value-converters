@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.1.0] - 2022-05-29
+### Added
+* Optional `IgnoreProperties` collection for specific properties to bypass the converter
+* Multi-Node Tree Picker bypasses the converter for "umbracoRedirect" and "umbracoInternalRedirectId" properties
+* Improved metadata for `SuperValueConverterBase` methods
+
 ## [3.0.1] - 2021-03-15
 ### Changed
 * Targeting `Umbraco.Cms.Infrastructure` as all of `Umbraco.Cms.Web.Common` is not needed
@@ -14,6 +20,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ## [3.0.0] - 2021-03-03
 ### Added
 * Initial release of SuperValueConverters for Umbraco 9+
+
+## [2.2.0] - 2022-05-29
+### Added
+* Optional `IgnoreProperties` collection for specific properties to bypass the converter
+* Multi-Node Tree Picker bypasses the converter for "umbracoRedirect" and "umbracoInternalRedirectId" properties
+* Improved metadata for `SuperValueConverterBase` methods
 
 ## [2.1.0] - 2021-01-22
 ### Added
@@ -74,9 +86,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * README file with information about the project and screenshots
 * MIT license in the form of a LICENSE.md file
 
-[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-3.0.1...HEAD
-[3.0.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-3.0.0...release-3.0.1
-[3.0.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-2.1.0...release-3.0.0
+[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-3.1.0...HEAD
+[3.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-3.0.1...release-3.1.0
+[3.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-3.0.0...release-3.0.1
+[3.0.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-2.2.0...release-3.0.0
+[2.2.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-2.1.0...release-2.2.0
 [2.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-2.0.1...release-2.1.0
 [2.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-2.0.0...release-2.0.1
 [2.0.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-1.2.0...release-2.0.0
