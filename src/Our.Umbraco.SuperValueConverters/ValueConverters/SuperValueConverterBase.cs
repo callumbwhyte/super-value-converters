@@ -5,6 +5,7 @@ using System.Linq;
 using Our.Umbraco.SuperValueConverters.Extensions;
 using Our.Umbraco.SuperValueConverters.Helpers;
 using Our.Umbraco.SuperValueConverters.Models;
+using Umbraco.Core;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
 
@@ -19,8 +20,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             _baseValueConverter = baseValueConverter;
         }
 
+        public virtual string[] IgnoreProperties { get; }
+
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
+            if (IgnoreProperties?.InvariantContains(propertyType.Alias) == true)
+            {
+                return _baseValueConverter.GetPropertyValueType(propertyType);
+            }
+
             var settings = GetSettings(propertyType);
 
             var modelType = settings.DefaultType ?? typeof(IPublishedContent);
@@ -67,6 +75,11 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         public override object ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
         {
             var value = _baseValueConverter.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
+
+            if (IgnoreProperties?.InvariantContains(propertyType.Alias) == true)
+            {
+                return value;
+            }
 
             var clrType = propertyType.ClrType;
 
