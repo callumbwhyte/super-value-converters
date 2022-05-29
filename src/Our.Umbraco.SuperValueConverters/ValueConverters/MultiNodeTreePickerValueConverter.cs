@@ -1,4 +1,5 @@
 ﻿using Our.Umbraco.SuperValueConverters.Models;
+using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
@@ -13,6 +14,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
 
         }
+
+        public override string[] IgnoreProperties => new[]
+        {
+            Constants.Conventions.Content.InternalRedirectId,
+            Constants.Conventions.Content.Redirect
+        };
 
         public override IPickerSettings GetSettings(IPublishedPropertyType propertyType)
         {
