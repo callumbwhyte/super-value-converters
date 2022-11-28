@@ -6,14 +6,20 @@
     <Description>A collection of powerful property value converters for cleaner code in Umbraco</Description>
     <Authors>Callum Whyte</Authors>
     <Copyright>Copyright © 2022 Callum Whyte, and other contributors</Copyright>
-    <PackageLicenseUrl>https://github.com/callumbwhyte/super-value-converters/blob/main/LICENSE.md</PackageLicenseUrl>
+    <PackageIcon>docs\logo.png</PackageIcon>
+    <PackageLicenseFile>docs\LICENSE.md</PackageLicenseFile>
+    <PackageReadmeFile>docs\README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/callumbwhyte/super-value-converters</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/callumbwhyte/super-value-converters/main/docs/img/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/callumbwhyte/super-value-converters</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageTags>umbraco converters models-builder</PackageTags>
+    <PackageTags>umbraco converters models-builder umbraco-marketplace</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md" Pack="true" PackagePath="docs" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="docs" />
+    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="docs" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[9.0.0,10.0.0)" />
   </ItemGroup>
