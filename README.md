@@ -3,7 +3,6 @@
 <img src="docs/img/logo.png?raw=true" alt="Umbraco SuperValueConverters" width="250" align="right" />
 
 [![NuGet release](https://img.shields.io/nuget/v/Our.Umbraco.SuperValueConverters.svg)](https://www.nuget.org/packages/Our.Umbraco.SuperValueConverters/)
-[![Our Umbraco project page](https://img.shields.io/badge/our-umbraco-orange.svg)](https://our.umbraco.com/projects/developer-tools/supervalueconverters/)
 
 _Looking for SuperValueConverters for **Umbraco 8**? Check the [v8/dev](https://github.com/callumbwhyte/super-value-converters/tree/v8/dev) branch._
 
@@ -11,21 +10,19 @@ SuperValueConverters is a collection of powerful property value converters for U
 
 ## Getting started
 
-SuperValueConverters is supported on Umbraco 9.
+This package is supported on Umbraco v9, v10, and v11
 
 Once installed you don't need to do anything to activate SuperValueConverters.
 
 ### Installation
 
-SuperValueConverters is available from Our Umbraco, NuGet, or as a manual download directly from GitHub.
+SuperValueConverters is available via [NuGet](https://www.nuget.org/packages/Our.Umbraco.SuperValueConverters/).
 
-#### Our Umbraco repository
+To install with the .NET CLI, run the following command:
 
-You can find a downloadable package, along with a discussion forum for this package, on the [Our Umbraco](https://our.umbraco.com/projects/developer-tools/supervalueconverters/) site.
+    $ dotnet add package Our.Umbraco.SuperValueConverters
 
-#### NuGet package repository
-
-To [install from NuGet](https://www.nuget.org/packages/Our.Umbraco.SuperValueConverters/), run the following command in your instance of Visual Studio.
+To install from within Visual Studio, use the NuGet Package Manager UI or run the following command:
 
     PM> Install-Package Our.Umbraco.SuperValueConverters
 
