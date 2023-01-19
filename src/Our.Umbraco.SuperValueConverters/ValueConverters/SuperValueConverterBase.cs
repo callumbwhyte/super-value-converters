@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +65,8 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
                 {
                     var interfaces = types.Select(x => x
                         .GetInterfaces()
-                        .Where(i => i.IsPublic));
+                        .Where(i => i.IsPublic)
+                        .Where(i => i != typeof(IPublishedElement)));
 
                     var sharedInterfaces = interfaces.IntersectMany();
 
