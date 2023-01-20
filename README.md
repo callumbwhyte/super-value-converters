@@ -66,9 +66,10 @@ The logo uses the [Energy](https://thenounproject.com/term/search/1603715/) icon
 * [Robert Foster](https://github.com/robertjf)
 * [Lukasz Koruba](https://github.com/lkoruba)
 * [Nik Rimington](https://github.com/NikRimington)
+* [Alejandro Ocampo](https://github.com/ja0b)
 
 ## License
 
-Copyright &copy; 2022 [Callum Whyte](https://callumwhyte.com/), and other contributors
+Copyright &copy; 2023 [Callum Whyte](https://callumwhyte.com/), and other contributors
 
 Licensed under the [MIT License](LICENSE.md).
