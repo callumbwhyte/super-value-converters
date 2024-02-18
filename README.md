@@ -10,7 +10,7 @@ SuperValueConverters is a collection of powerful property value converters for U
 
 ## Getting started
 
-This package is supported on Umbraco v9, v10, and v11
+This package is supported on Umbraco v10-v12 and v13
 
 Once installed you don't need to do anything to activate SuperValueConverters.
 
@@ -64,9 +64,10 @@ The logo uses the [Energy](https://thenounproject.com/term/search/1603715/) icon
 * [Lukasz Koruba](https://github.com/lkoruba)
 * [Nik Rimington](https://github.com/NikRimington)
 * [Alejandro Ocampo](https://github.com/ja0b)
+* [Richard Thompson](https://github.com/richarth)
 
 ## License
 
-Copyright &copy; 2023 [Callum Whyte](https://callumwhyte.com/), and other contributors
+Copyright &copy; 2024 [Callum Whyte](https://callumwhyte.com/), and other contributors
 
 Licensed under the [MIT License](LICENSE.md).
