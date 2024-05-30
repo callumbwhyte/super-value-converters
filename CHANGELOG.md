@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [4.1.1] - 2024-05-30
+### Fixed
+* Prevent automatically upgrading to Umbraco 14
+
 ## [4.1.0] - 2024-02-18
 ### Added
 * Support for SuperValueConverters on Umbraco 13 (LTS)
@@ -102,7 +106,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * README file with information about the project and screenshots
 * MIT license in the form of a LICENSE.md file
 
-[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.0...HEAD
+[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.1...HEAD
+[4.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.0...release-4.1.1
 [4.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.0.1...release-4.1.0
 [4.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.0.0...release-4.0.1
 [4.0.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-3.1.0...release-4.0.0
