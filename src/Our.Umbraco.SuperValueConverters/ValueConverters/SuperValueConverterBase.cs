@@ -38,16 +38,16 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var settings = GetSettings(propertyType);
 
-            var modelType = settings.DefaultType ?? typeof(IPublishedContent);
+            var modelType = settings.BaseType ?? typeof(IPublishedContent);
 
             if (settings.AllowedTypes.Any() == true)
             {
-                var returnType = GetTypeForAllowedTypes(settings.AllowedTypes);
+                modelType = GetTypeForAllowedTypes(settings.AllowedTypes) ?? typeof(IPublishedContent);
+            }
 
-                if (returnType != null)
-                {
-                    modelType = returnType;
-                }
+            if (settings.BaseType.IsGenericTypeDefinition && !modelType.IsGenericType)
+            {
+                modelType = settings.BaseType.MakeGenericType(modelType);
             }
 
             if (settings.AllowsMultiple() == true)

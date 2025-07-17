@@ -28,7 +28,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             var settings = new PickerSettings
             {
                 MaxItems = configuration.MaxItems ?? 0,
-                DefaultType = typeof(IPublishedElement)
+                BaseType = typeof(IPublishedElement)
             };
 
             if (configuration.ContentTypes != null)

@@ -8,7 +8,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
 
         public int MaxItems { get; set; }
 
-        public Type DefaultType { get; set; }
+        public Type BaseType { get; set; }
 
         public bool AllowsMultiple()
         {
