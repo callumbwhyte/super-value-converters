@@ -4,7 +4,7 @@ namespace Our.Umbraco.SuperValueConverters.Models
 {
     internal class PickerSettings : IPickerSettings
     {
-        public string[] AllowedTypes { get; set; } = new string[] { };
+        public string[] AllowedTypes { get; set; } = [];
 
         public int MaxItems { get; set; }
 

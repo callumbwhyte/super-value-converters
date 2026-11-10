@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [5.0.0] - Unreleased
+### Added
+* Support for SuperValueConverters on Umbraco 17 (LTS) and 18
+* Delivery API output is passed through to the Core value converters
+
+### Changed
+* Multi-Node Tree Picker reads allowed types from the doctype keys the backoffice now stores
+
+### Removed
+* Nested Content support, as it was removed from Umbraco
+* Support for Umbraco 10-13, which remains on the 4.x releases
+
 ## [4.1.1] - 2024-05-30
 ### Fixed
 * Prevent automatically upgrading to Umbraco 14
