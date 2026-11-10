@@ -59,7 +59,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        private Type GetTypeForAllowedTypes(string[] allowedTypes)
+        protected Type GetTypeForAllowedTypes(string[] allowedTypes)
         {
             var types = _typeLoader.GetTypes<IPublishedElement>()
                 .Where(type =>

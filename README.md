@@ -35,6 +35,7 @@ Supported value converters will no longer return `null` if no value has been pic
 Currently the following datatypes are supported:
 
 * Multi-Node Tree Picker
+* Block List
 
 ### Models Builder
 

@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ## [5.0.0] - Unreleased
 ### Added
 * Support for SuperValueConverters on Umbraco 17 (LTS) and 18
+* Block List support, returning `BlockListModel<TContent>` or a single `BlockListItem<TContent>`
 * Delivery API output is passed through to the Core value converters
 
 ### Changed
