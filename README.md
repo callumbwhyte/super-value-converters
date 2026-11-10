@@ -4,13 +4,13 @@
 
 [![NuGet release](https://img.shields.io/nuget/v/Our.Umbraco.SuperValueConverters.svg)](https://www.nuget.org/packages/Our.Umbraco.SuperValueConverters/)
 
-_Looking for SuperValueConverters for **Umbraco 8**? Check the [v8/dev](https://github.com/callumbwhyte/super-value-converters/tree/v8/dev) branch._
+_Looking for SuperValueConverters for **Umbraco 10-13**? Check the [v9/dev](https://github.com/callumbwhyte/super-value-converters/tree/v9/dev) branch. For **Umbraco 8**, check the [v8/dev](https://github.com/callumbwhyte/super-value-converters/tree/v8/dev) branch._
 
 SuperValueConverters is a collection of powerful property value converters for Umbraco, eliminating the need for casting and null checks on Umbraco picker values in views or controllers and helping to keep code cleaner.
 
 ## Getting started
 
-This package is supported on Umbraco v10-v12 and v13
+This package is supported on Umbraco v17 (LTS) and v18.
 
 Once installed you don't need to do anything to activate SuperValueConverters.
 
@@ -28,14 +28,13 @@ To install from within Visual Studio, use the NuGet Package Manager UI or run th
 
 ## Usage
 
-Where a picker that returns multiple items _(such as [MNTP](https://our.umbraco.com/documentation/Getting-Started/Backoffice/Property-Editors/Built-in-Property-Editors/Multinode-Treepicker2) or [Nested Content](https://our.umbraco.com/documentation/Getting-Started/Backoffice/Property-Editors/Built-in-Property-Editors/Nested-Content))_ has been configured to only allow a single item to be selected _(via it's "maxItems" setting)_, the returned value will now be a single `IPublishedContent` rather than `IEnumerable<IPublishedContent>`.
+Where a picker that returns multiple items _(such as [MNTP](https://docs.umbraco.com/umbraco-cms/fundamentals/backoffice/property-editors/built-in-umbraco-property-editors/multinode-treepicker))_ has been configured to only allow a single item to be selected _(via its maximum number of items setting)_, the returned value will now be a single `IPublishedContent` rather than `IEnumerable<IPublishedContent>`.
 
 Supported value converters will no longer return `null` if no value has been picked - an empty collection will be returned instead, preventing the need for null checks.
 
 Currently the following datatypes are supported:
 
 * Multi-Node Tree Picker
-* Nested Content
 
 ### Models Builder
 
