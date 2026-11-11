@@ -9,6 +9,8 @@ namespace Our.Umbraco.SuperValueConverters
     {
         public void Compose(IUmbracoBuilder builder)
         {
+            builder.DisableConverter<BlockListPropertyValueConverter>();
+
             builder.DisableConverter<MediaPickerWithCropsValueConverter>();
 
             builder.DisableConverter<MultiNodeTreePickerValueConverter>();

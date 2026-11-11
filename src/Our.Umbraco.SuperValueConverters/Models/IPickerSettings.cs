@@ -2,6 +2,7 @@
 
 namespace Our.Umbraco.SuperValueConverters.Models
 {
+    [Obsolete]
     public interface IPickerSettings
     {
         string[] AllowedTypes { get; set; }

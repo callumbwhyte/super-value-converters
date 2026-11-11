@@ -1,4 +1,6 @@
-﻿using Our.Umbraco.SuperValueConverters.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
@@ -9,10 +11,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public class MultiNodeTreePickerValueConverter : SuperValueConverterBase
     {
-        public MultiNodeTreePickerValueConverter(Core.MultiNodeTreePickerValueConverter baseValueConverter, TypeLoader typeLoader)
-            : base(baseValueConverter, typeLoader)
-        {
+        private readonly IPropertyValueConverter _valueConverter;
 
+        public MultiNodeTreePickerValueConverter(Core.MultiNodeTreePickerValueConverter valueConverter, TypeLoader typeLoader)
+            : base(valueConverter, typeLoader)
+        {
+            _valueConverter = valueConverter;
         }
 
         public override string[] IgnoreProperties => new[]
@@ -21,22 +25,27 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             Constants.Conventions.Content.Redirect
         };
 
-        public override IPickerSettings GetSettings(IPublishedPropertyType propertyType)
+        public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
-            var configuration = propertyType.DataType.ConfigurationAs<MultiNodePickerConfiguration>();
-
-            var settings = new PickerSettings
+            if (IgnoreProperties.Contains(propertyType.Alias) == true)
             {
-                MaxItems = configuration.MaxNumber,
-                BaseType = typeof(IPublishedContent)
-            };
-
-            if (string.IsNullOrEmpty(configuration.Filter) == false)
-            {
-                settings.AllowedTypes = configuration.Filter.Split(',');
+                return _valueConverter.GetPropertyValueType(propertyType);
             }
 
-            return settings;
+            var config = propertyType.DataType.ConfigurationAs<MultiNodePickerConfiguration>();
+
+            var allowedTypes = config.Filter?.Split(',') ?? new string[0];
+
+            var multiple = config.MaxNumber != 1;
+
+            var itemType = GetPublishedModelType(allowedTypes) ?? typeof(IPublishedContent);
+
+            if (multiple == true)
+            {
+                return typeof(IEnumerable<>).MakeGenericType(itemType);
+            }
+
+            return itemType;
         }
     }
 }

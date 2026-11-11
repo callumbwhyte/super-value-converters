@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Our.Umbraco.SuperValueConverters.Extensions;
 using Our.Umbraco.SuperValueConverters.Models;
 using Umbraco.Cms.Core.Composing;
@@ -14,12 +13,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public abstract class SuperValueConverterBase : PropertyValueConverterBase
     {
-        private readonly IPropertyValueConverter _baseValueConverter;
+        private readonly IPropertyValueConverter _valueConverter;
         private readonly TypeLoader _typeLoader;
 
-        public SuperValueConverterBase(IPropertyValueConverter baseValueConverter, TypeLoader typeLoader)
+        public SuperValueConverterBase(IPropertyValueConverter valueConverter, TypeLoader typeLoader)
         {
-            _baseValueConverter = baseValueConverter;
+            _valueConverter = valueConverter;
             _typeLoader = typeLoader;
         }
 
@@ -28,29 +27,49 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         /// </summary>
         public virtual string[] IgnoreProperties { get; }
 
+        /// <summary>
+        /// Builds the <see cref="IPickerSettings" /> object for the property type
+        /// </summary>
+        [Obsolete("Implement GetPropertyValueType within the value converter instead")]
+        public virtual IPickerSettings GetSettings(IPublishedPropertyType propertyType) => null;
+
+        /// <summary>
+        /// Gets the common published model type for the given content type aliases
+        /// </summary>
+        protected virtual Type GetPublishedModelType(params string[] contentTypeAliases)
+        {
+            var types = _typeLoader.GetPublishedModelTypes(contentTypeAliases);
+
+            return _typeLoader.FindCommonInterfaces(types, type =>
+            {
+                return type.Namespace != typeof(IPublishedElement).Namespace;
+            });
+        }
+
+        /// <inheritdoc />
+        public override bool IsConverter(IPublishedPropertyType propertyType)
+        {
+            return _valueConverter.IsConverter(propertyType);
+        }
+
+        public override bool? IsValue(object value, PropertyValueLevel level)
+        {
+            return _valueConverter.IsValue(value, level);
+        }
+
         /// <inheritdoc />
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
-            if (IgnoreProperties?.InvariantContains(propertyType.Alias) == true)
-            {
-                return _baseValueConverter.GetPropertyValueType(propertyType);
-            }
-
             var settings = GetSettings(propertyType);
 
-            var modelType = settings.BaseType ?? typeof(IPublishedContent);
+            var modelType = settings?.BaseType ?? typeof(IPublishedElement);
 
-            if (settings.AllowedTypes.Any() == true)
+            if (settings?.AllowedTypes?.Any() == true)
             {
-                modelType = GetTypeForAllowedTypes(settings.AllowedTypes) ?? typeof(IPublishedContent);
+                modelType = GetPublishedModelType(settings.AllowedTypes.ToArray()) ?? settings.BaseType;
             }
 
-            if (settings.BaseType.IsGenericTypeDefinition && !modelType.IsGenericType)
-            {
-                modelType = settings.BaseType.MakeGenericType(modelType);
-            }
-
-            if (settings.AllowsMultiple() == true)
+            if (settings?.AllowsMultiple() == true)
             {
                 return typeof(IEnumerable<>).MakeGenericType(modelType);
             }
@@ -58,117 +77,63 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        private Type GetTypeForAllowedTypes(string[] allowedTypes)
+        public override PropertyCacheLevel GetPropertyCacheLevel(IPublishedPropertyType propertyType)
         {
-            var types = _typeLoader.GetTypes<IPublishedElement>()
-                .Where(type =>
-                {
-                    var attribute = type.GetCustomAttribute<PublishedModelAttribute>(false);
-
-                    var modelName = attribute != null ? attribute.ContentTypeAlias : type.Name;
-
-                    return allowedTypes.InvariantContains(modelName);
-                });
-
-            if (types.Any() == true)
-            {
-                if (allowedTypes.Length > 1)
-                {
-                    var interfaces = types.Select(x => x
-                        .GetInterfaces()
-                        .Where(i => i.IsPublic)
-                        .Where(i => i != typeof(IPublishedElement)));
-
-                    var sharedInterfaces = interfaces.IntersectMany();
-
-                    return sharedInterfaces.LastOrDefault();
-                }
-            }
-
-            return types.FirstOrDefault();
-        }
-
-        /// <inheritdoc />
-        public override object ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
-        {
-            var value = _baseValueConverter.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
-
-            if (IgnoreProperties?.InvariantContains(propertyType.Alias) == true)
-            {
-                return value;
-            }
-
-            var clrType = propertyType.ClrType;
-
-            bool allowsMultiple = clrType.IsIEnumerable();
-
-            var modelType = allowsMultiple == true ? clrType.GetInnerType() : clrType;
-
-            var castItems = CastSourceToList(value, modelType);
-
-            return allowsMultiple == true ? castItems : castItems.FirstOrNull();
-        }
-
-        private static IList CastSourceToList(object source, Type modelType)
-        {
-            var castItems = modelType.CreateList();
-
-            var sourceAsList = source as IEnumerable<IPublishedElement>;
-
-            if (sourceAsList == null)
-            {
-                var sourceAsSingle = source as IPublishedElement;
-
-                if (sourceAsSingle != null)
-                {
-                    if (modelType.IsAssignableFrom(sourceAsSingle.GetType()) == true)
-                    {
-                        castItems.Add(sourceAsSingle);
-                    }
-                }
-            }
-            else
-            {
-                foreach (var item in sourceAsList)
-                {
-                    if (item != null)
-                    {
-                        if (modelType.IsAssignableFrom(item.GetType()) == true)
-                        {
-                            castItems.Add(item);
-                        }
-                    }
-                }
-            }
-
-            return castItems;
-        }
-
-        #region Base overrides
-
-        /// <inheritdoc />
-        public override object ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
-        {
-            return _baseValueConverter.ConvertIntermediateToXPath(owner, propertyType, referenceCacheLevel, inter, preview);
+            return _valueConverter.GetPropertyCacheLevel(propertyType);
         }
 
         /// <inheritdoc />
         public override object ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object source, bool preview)
         {
-            return _baseValueConverter.ConvertSourceToIntermediate(owner, propertyType, source, preview);
+            return _valueConverter.ConvertSourceToIntermediate(owner, propertyType, source, preview);
         }
 
         /// <inheritdoc />
-        public override bool IsConverter(IPublishedPropertyType propertyType)
+        public override object ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
         {
-            return _baseValueConverter.IsConverter(propertyType);
+            var value = _valueConverter.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
+
+            if (IgnoreProperties.InvariantContains(propertyType.Alias) == true)
+            {
+                return value;
+            }
+
+            var clrType = propertyType.ClrType ?? GetPropertyValueType(propertyType);
+
+            var allowsMultiple = clrType.IsIEnumerable();
+
+            var modelType = allowsMultiple == true ? clrType.GetInnerType() : clrType;
+
+            var result = modelType.CreateList();
+
+            if (value is IEnumerable items)
+            {
+                foreach (var item in items)
+                {
+                    if (item != null)
+                    {
+                        if (modelType.IsAssignableFrom(item.GetType()) == true)
+                        {
+                            result.Add(item);
+                        }
+                    }
+                }
+            }
+            else if (value != null)
+            {
+                if (modelType.IsAssignableFrom(value.GetType()) == true)
+                {
+                    result.Add(value);
+                }
+            }
+
+            return allowsMultiple == true ? result : result.FirstOrNull();
         }
 
-        #endregion
-
-        /// <summary>
-        /// Builds the <see cref="IPickerSettings" /> object for the property type
-        /// </summary>
-        public abstract IPickerSettings GetSettings(IPublishedPropertyType propertyType);
+        /// <inheritdoc />
+        public override object ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
+        {
+            return _valueConverter.ConvertIntermediateToXPath(owner, propertyType, referenceCacheLevel, inter, preview);
+        }
     }
 }

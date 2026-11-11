@@ -2,7 +2,7 @@
 
 namespace Our.Umbraco.SuperValueConverters.Extensions
 {
-    internal static class IListExtensions
+    internal static class ListExtensions
     {
         public static object FirstOrNull(this IList source)
         {

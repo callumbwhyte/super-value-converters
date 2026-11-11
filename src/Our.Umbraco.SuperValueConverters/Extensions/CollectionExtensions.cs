@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Our.Umbraco.SuperValueConverters.Extensions
 {
-    internal static class IEnumerableExtensions
+    internal static class CollectionExtensions
     {
         public static IEnumerable<T> IntersectMany<T>(this IEnumerable<IEnumerable<T>> values)
         {

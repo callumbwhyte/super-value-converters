@@ -1,4 +1,5 @@
-﻿using Our.Umbraco.SuperValueConverters.Models;
+﻿using System;
+using System.Collections.Generic;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
@@ -9,28 +10,32 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     internal class MediaPickerValueConverter : SuperValueConverterBase
     {
-        public MediaPickerValueConverter(Core.MediaPickerWithCropsValueConverter baseValueConverter, TypeLoader typeLoader)
-            : base(baseValueConverter, typeLoader)
+        public MediaPickerValueConverter(Core.MediaPickerWithCropsValueConverter valueConverter, TypeLoader typeLoader)
+            : base(valueConverter, typeLoader)
         {
 
         }
 
-        public override IPickerSettings GetSettings(IPublishedPropertyType propertyType)
+        public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
-            var configuration = propertyType.DataType.ConfigurationAs<MediaPicker3Configuration>();
+            var config = propertyType.DataType.ConfigurationAs<MediaPicker3Configuration>();
 
-            var settings = new PickerSettings
-            {
-                MaxItems = configuration.ValidationLimit.Max ?? 0,
-                BaseType = typeof(MediaWithCrops<>)
-            };
+            var allowedTypes = config.Filter?.Split(',') ?? new string[0];
 
-            if (string.IsNullOrEmpty(configuration.Filter) == false)
+            var multiple = config.ValidationLimit.Max != 1;
+
+            var modelType = GetPublishedModelType(allowedTypes);
+
+            var itemType = modelType != null
+                ? typeof(MediaWithCrops<>).MakeGenericType(modelType)
+                : typeof(MediaWithCrops);
+
+            if (multiple == true)
             {
-                settings.AllowedTypes = configuration.Filter.Split(',');
+                return typeof(IEnumerable<>).MakeGenericType(itemType);
             }
 
-            return settings;
+            return itemType;
         }
     }
 }

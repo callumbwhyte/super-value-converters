@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using Our.Umbraco.SuperValueConverters.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
@@ -10,8 +11,8 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public class NestedContentValueConverter : SuperValueConverterBase
     {
-        public NestedContentValueConverter(Core.NestedContentManyValueConverter baseValueConverter, TypeLoader typeLoader)
-            : base(baseValueConverter, typeLoader)
+        public NestedContentValueConverter(Core.NestedContentManyValueConverter valueConverter, TypeLoader typeLoader)
+            : base(valueConverter, typeLoader)
         {
 
         }
@@ -21,24 +22,22 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return propertyType.EditorAlias.Equals(Constants.PropertyEditors.Aliases.NestedContent);
         }
 
-        public override IPickerSettings GetSettings(IPublishedPropertyType propertyType)
+        public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
-            var configuration = propertyType.DataType.ConfigurationAs<NestedContentConfiguration>();
+            var config = propertyType.DataType.ConfigurationAs<NestedContentConfiguration>();
 
-            var settings = new PickerSettings
-            {
-                MaxItems = configuration.MaxItems ?? 0,
-                BaseType = typeof(IPublishedElement)
-            };
+            var allowedTypes = config.ContentTypes?.Select(x => x.Alias).ToArray() ?? new string[0];
 
-            if (configuration.ContentTypes != null)
+            var multiple = config.MaxItems != 1;
+
+            var itemType = GetPublishedModelType(allowedTypes) ?? typeof(IPublishedElement);
+
+            if (multiple == true)
             {
-                settings.AllowedTypes = configuration.ContentTypes
-                    .Select(x => x.Alias)
-                    .ToArray();
+                return typeof(IEnumerable<>).MakeGenericType(itemType);
             }
 
-            return settings;
+            return itemType;
         }
     }
 }
