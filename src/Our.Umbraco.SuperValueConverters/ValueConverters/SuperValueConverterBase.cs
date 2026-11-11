@@ -8,11 +8,12 @@ using Our.Umbraco.SuperValueConverters.Models;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
+using Umbraco.Cms.Core.PropertyEditors.DeliveryApi;
 using Umbraco.Extensions;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public abstract class SuperValueConverterBase : PropertyValueConverterBase
+    public abstract class SuperValueConverterBase : PropertyValueConverterBase, IDeliveryApiPropertyValueConverter
     {
         private readonly IPropertyValueConverter _baseValueConverter;
         private readonly TypeLoader _typeLoader;
@@ -58,7 +59,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        private Type GetTypeForAllowedTypes(string[] allowedTypes)
+        protected Type GetTypeForAllowedTypes(string[] allowedTypes)
         {
             var types = _typeLoader.GetTypes<IPublishedElement>()
                 .Where(type =>
@@ -147,9 +148,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         #region Base overrides
 
         /// <inheritdoc />
-        public override object ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
+        public override PropertyCacheLevel GetPropertyCacheLevel(IPublishedPropertyType propertyType)
         {
-            return _baseValueConverter.ConvertIntermediateToXPath(owner, propertyType, referenceCacheLevel, inter, preview);
+            return _baseValueConverter.GetPropertyCacheLevel(propertyType);
+        }
+
+        /// <inheritdoc />
+        public override bool? IsValue(object value, PropertyValueLevel level)
+        {
+            return _baseValueConverter.IsValue(value, level);
         }
 
         /// <inheritdoc />
@@ -162,6 +169,42 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         public override bool IsConverter(IPublishedPropertyType propertyType)
         {
             return _baseValueConverter.IsConverter(propertyType);
+        }
+
+        #endregion
+
+        #region Delivery API
+
+        // The Delivery API has its own output models, so is left to the Core converter.
+        private IDeliveryApiPropertyValueConverter DeliveryApiConverter => _baseValueConverter as IDeliveryApiPropertyValueConverter;
+
+        /// <inheritdoc />
+        public PropertyCacheLevel GetDeliveryApiPropertyCacheLevel(IPublishedPropertyType propertyType)
+        {
+            return DeliveryApiConverter?.GetDeliveryApiPropertyCacheLevel(propertyType) ?? GetPropertyCacheLevel(propertyType);
+        }
+
+        /// <inheritdoc />
+        public PropertyCacheLevel GetDeliveryApiPropertyCacheLevelForExpansion(IPublishedPropertyType propertyType)
+        {
+            return DeliveryApiConverter?.GetDeliveryApiPropertyCacheLevelForExpansion(propertyType) ?? GetPropertyCacheLevel(propertyType);
+        }
+
+        /// <inheritdoc />
+        public Type GetDeliveryApiPropertyValueType(IPublishedPropertyType propertyType)
+        {
+            return DeliveryApiConverter?.GetDeliveryApiPropertyValueType(propertyType) ?? _baseValueConverter.GetPropertyValueType(propertyType);
+        }
+
+        /// <inheritdoc />
+        public object ConvertIntermediateToDeliveryApiObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview, bool expanding)
+        {
+            if (DeliveryApiConverter != null)
+            {
+                return DeliveryApiConverter.ConvertIntermediateToDeliveryApiObject(owner, propertyType, referenceCacheLevel, inter, preview, expanding);
+            }
+
+            return _baseValueConverter.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
         }
 
         #endregion

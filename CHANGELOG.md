@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [5.0.0] - Unreleased
+### Added
+* Support for SuperValueConverters on Umbraco 17 (LTS) and 18
+* Block List support, returning `BlockListModel<TContent>`, or a single `BlockListItem<TContent>` where the maximum is 1
+* Single Block support, returning a `BlockListItem<TContent>`
+* Delivery API output is passed through to the Core value converters
+
+### Changed
+* Multi-Node Tree Picker reads allowed types from the doctype keys the backoffice now stores
+* Block Lists with a maximum of 1 return a single `BlockListItem` rather than Umbraco's `BlockListModel`, even when single block mode is off. Views that pass them to `Html.GetBlockListHtmlAsync` or loop over them need updating.
+
+### Removed
+* Nested Content support, as it was removed from Umbraco
+* Support for Umbraco 10-13, which remains on the 4.x releases
+
 ## [4.1.1] - 2024-05-30
 ### Fixed
 * Prevent automatically upgrading to Umbraco 14
