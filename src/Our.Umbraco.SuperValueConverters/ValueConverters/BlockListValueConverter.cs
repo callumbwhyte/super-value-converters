@@ -78,7 +78,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
                 return value;
             }
 
-            // Core returns a single item, rather than a model, in single block mode.
+            // Core returns a single item, not a model, only in single block mode with one block type and a minimum and maximum of 1.
             var items = new List<BlockListItem>();
 
             if (value is BlockListModel model)
