@@ -30,6 +30,8 @@ To install from within Visual Studio, use the NuGet Package Manager UI or run th
 
 Where a picker that returns multiple items _(such as [MNTP](https://docs.umbraco.com/umbraco-cms/fundamentals/backoffice/property-editors/built-in-umbraco-property-editors/multinode-treepicker))_ has been configured to only allow a single item to be selected _(via its maximum number of items setting)_, the returned value will now be a single `IPublishedContent` rather than `IEnumerable<IPublishedContent>`.
 
+Block Lists work the same way: a Block List with a maximum of 1 returns a single `BlockListItem` (or `null`) rather than a `BlockListModel`, even when single block mode is off. Umbraco itself only does this in single block mode with a minimum and maximum of 1, so after installing SuperValueConverters, views that pass these properties to `Html.GetBlockListHtmlAsync` or loop over them need updating.
+
 Supported value converters will no longer return `null` if no value has been picked - an empty collection will be returned instead, preventing the need for null checks.
 
 Currently the following datatypes are supported:
