@@ -36,6 +36,7 @@ Currently the following datatypes are supported:
 
 * Multi-Node Tree Picker
 * Block List
+* Single Block
 
 ### Models Builder
 
