@@ -11,12 +11,12 @@ namespace Our.Umbraco.SuperValueConverters.Extensions
         {
             var listType = typeof(List<>).MakeGenericType(type);
 
-            return (IList)Activator.CreateInstance(listType);
+            return (IList)Activator.CreateInstance(listType)!;
         }
 
         public static Type GetInnerType(this Type type)
         {
-            return type.GetGenericArguments().FirstOrDefault();
+            return type.GetGenericArguments().Single();
         }
 
         public static bool IsIEnumerable(this Type type)

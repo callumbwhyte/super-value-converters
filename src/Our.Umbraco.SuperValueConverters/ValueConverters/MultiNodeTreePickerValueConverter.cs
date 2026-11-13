@@ -37,29 +37,29 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var settings = new PickerSettings
             {
-                MaxItems = configuration.MaxNumber
+                MaxItems = configuration?.MaxNumber ?? 0
             };
 
-            if (string.IsNullOrEmpty(configuration.Filter) == false)
+            if (string.IsNullOrEmpty(configuration?.Filter) == false)
             {
-                var keys = configuration.Filter.Split(Constants.CharArrays.Comma, StringSplitOptions.RemoveEmptyEntries);
+                var keys = configuration.Filter.Split(",", StringSplitOptions.RemoveEmptyEntries);
 
                 // A filter that can't be read isn't narrowed, as narrowing to the readable part would drop picked items.
-                if (keys.All(key => Guid.TryParse(key, out _)) == false)
+                if (keys?.All(key => Guid.TryParse(key, out _)) != true)
                 {
                     return settings;
                 }
 
                 settings.AllowedTypes = keys
                     .Select(key => GetContentType(configuration.TreeSource?.ObjectType, Guid.Parse(key))?.Alias)
-                    .Where(alias => alias != null)
+                    .OfType<string>()
                     .ToArray();
             }
 
             return settings;
         }
 
-        private IContentTypeComposition GetContentType(string objectType, Guid key)
+        private IContentTypeComposition? GetContentType(string? objectType, Guid key)
         {
             return objectType switch
             {

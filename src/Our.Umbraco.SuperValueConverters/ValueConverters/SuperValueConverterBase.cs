@@ -27,7 +27,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         /// <summary>
         /// Property aliases to ignore, using the Core value converter instead
         /// </summary>
-        public virtual string[] IgnoreProperties { get; }
+        public virtual string[] IgnoreProperties { get; } = [];
 
         /// <inheritdoc />
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -39,7 +39,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var settings = GetSettings(propertyType);
 
-            var modelType = settings.DefaultType ?? typeof(IPublishedContent);
+            var modelType = settings.DefaultType ?? typeof(IPublishedElement);
 
             if (settings.AllowedTypes.Any() == true)
             {
@@ -59,7 +59,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             return modelType;
         }
 
-        private Type GetTypeForAllowedTypes(string[] allowedTypes)
+        private Type? GetTypeForAllowedTypes(string[] allowedTypes)
         {
             var types = _typeLoader.GetTypes<IPublishedElement>()
                 .Where(type =>
@@ -73,7 +73,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             if (types.Any() == true)
             {
-                if (allowedTypes.Length > 1)
+                if (allowedTypes?.Length > 1)
                 {
                     var interfaces = types.Select(x => x
                         .GetInterfaces()
@@ -90,7 +90,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         }
 
         /// <inheritdoc />
-        public override object ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
+        public override object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview)
         {
             var value = _valueConverter.ConvertIntermediateToObject(owner, propertyType, referenceCacheLevel, inter, preview);
 
@@ -101,36 +101,24 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var clrType = propertyType.ClrType;
 
-            bool allowsMultiple = clrType.IsIEnumerable();
+            var allowsMultiple = clrType?.IsIEnumerable() == true;
 
-            var modelType = allowsMultiple == true ? clrType.GetInnerType() : clrType;
+            var modelType = allowsMultiple == true ? clrType?.GetInnerType() : clrType;
 
             var castItems = CastSourceToList(value, modelType);
 
-            return allowsMultiple == true ? castItems : castItems.FirstOrNull();
+            return allowsMultiple == true ? castItems : castItems?.FirstOrNull();
         }
 
-        private static IList CastSourceToList(object source, Type modelType)
+        private static IList CastSourceToList(object? source, Type? modelType)
         {
+            modelType ??= typeof(IPublishedElement);
+
             var castItems = modelType.CreateList();
 
-            var sourceAsList = source as IEnumerable<IPublishedElement>;
-
-            if (sourceAsList == null)
+            if (source is IEnumerable items)
             {
-                var sourceAsSingle = source as IPublishedElement;
-
-                if (sourceAsSingle != null)
-                {
-                    if (modelType.IsAssignableFrom(sourceAsSingle.GetType()) == true)
-                    {
-                        castItems.Add(sourceAsSingle);
-                    }
-                }
-            }
-            else
-            {
-                foreach (var item in sourceAsList)
+                foreach (var item in items)
                 {
                     if (item != null)
                     {
@@ -139,6 +127,13 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
                             castItems.Add(item);
                         }
                     }
+                }
+            }
+            else if (source is object single)
+            {
+                if (modelType.IsAssignableFrom(single.GetType()) == true)
+                {
+                    castItems.Add(single);
                 }
             }
 
@@ -154,13 +149,13 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         }
 
         /// <inheritdoc />
-        public override bool? IsValue(object value, PropertyValueLevel level)
+        public override bool? IsValue(object? value, PropertyValueLevel level)
         {
             return _valueConverter.IsValue(value, level);
         }
 
         /// <inheritdoc />
-        public override object ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object source, bool preview)
+        public override object? ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object? source, bool preview)
         {
             return _valueConverter.ConvertSourceToIntermediate(owner, propertyType, source, preview);
         }
@@ -176,7 +171,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         #region Delivery API
 
         // The Delivery API has its own output models, so is left to the Core converter.
-        private IDeliveryApiPropertyValueConverter DeliveryApiConverter => _valueConverter as IDeliveryApiPropertyValueConverter;
+        private IDeliveryApiPropertyValueConverter? DeliveryApiConverter => _valueConverter as IDeliveryApiPropertyValueConverter;
 
         /// <inheritdoc />
         public PropertyCacheLevel GetDeliveryApiPropertyCacheLevel(IPublishedPropertyType propertyType)
@@ -197,7 +192,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         }
 
         /// <inheritdoc />
-        public object ConvertIntermediateToDeliveryApiObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview, bool expanding)
+        public object? ConvertIntermediateToDeliveryApiObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview, bool expanding)
         {
             if (DeliveryApiConverter != null)
             {
