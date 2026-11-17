@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [5.0.1] - Unreleased
+### Fixed
+* Multi-Node Tree Pickers set to content, or with no start node type, no longer throw `NotSupportedException` during model generation
+
 ## [5.0.0] - 2026-11-17
 ### Added
 * Support for SuperValueConverters on Umbraco v15.4-v17 (LTS) and v18-v19
@@ -129,6 +133,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * MIT license in the form of a LICENSE.md file
 
 [Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-5.0.0...HEAD
+[5.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-5.0.0...release-5.0.1
 [5.0.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.2.0...release-5.0.0
 [4.2.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.1...release-4.2.0
 [4.1.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.0...release-4.1.1

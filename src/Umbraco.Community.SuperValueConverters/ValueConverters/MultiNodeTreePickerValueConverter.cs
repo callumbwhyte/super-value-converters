@@ -51,6 +51,8 @@ internal class MultiNodeTreePickerValueConverter<T> : SuperValueConverterBase
     {
         IEnumerable<IContentTypeBase> allowedTypes = objectType switch
         {
+            // Umbraco stores item types as "content" instead of "document"
+            "content" => _contentTypeService.GetMany(keys),
             Constants.UdiEntityType.Document => _contentTypeService.GetMany(keys),
             Constants.UdiEntityType.Media => _mediaTypeService.GetMany(keys),
             Constants.UdiEntityType.Member => _memberTypeService.GetMany(keys),
