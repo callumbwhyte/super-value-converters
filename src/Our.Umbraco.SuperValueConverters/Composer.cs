@@ -14,10 +14,6 @@ namespace Our.Umbraco.SuperValueConverters
             builder.DisableConverter<MediaPickerWithCropsValueConverter>();
 
             builder.DisableConverter<MultiNodeTreePickerValueConverter>();
-
-            builder.DisableConverter<NestedContentManyValueConverter>();
-
-            builder.DisableConverter<NestedContentSingleValueConverter>();
         }
     }
 }

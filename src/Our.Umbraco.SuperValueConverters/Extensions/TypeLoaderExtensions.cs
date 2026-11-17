@@ -9,7 +9,7 @@ namespace Our.Umbraco.SuperValueConverters.Extensions
 {
     internal static class TypeLoaderExtensions
     {
-        public static Type FindCommonInterfaces(this TypeLoader typeLoader, IEnumerable<Type> types, Func<Type, bool> predicate = null)
+        public static Type? FindCommonInterfaces(this TypeLoader typeLoader, IEnumerable<Type> types, Func<Type, bool>? predicate = null)
         {
             if (types.Count() > 1)
             {

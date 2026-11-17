@@ -7,13 +7,13 @@ namespace Our.Umbraco.SuperValueConverters.Extensions
     {
         public static IEnumerable<T> IntersectMany<T>(this IEnumerable<IEnumerable<T>> values)
         {
-            IEnumerable<T> intersection = null;
+            IEnumerable<T> intersection = [];
 
             foreach (var value in values)
             {
-                if (intersection == null)
+                if (intersection?.Any() != true)
                 {
-                    intersection = new List<T>(value);
+                    intersection = [..value];
                 }
                 else
                 {
@@ -21,7 +21,7 @@ namespace Our.Umbraco.SuperValueConverters.Extensions
                 }
             }
 
-            return intersection ?? Enumerable.Empty<T>();
+            return intersection;
         }
     }
 }

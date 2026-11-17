@@ -24,18 +24,18 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         {
             var config = propertyType.DataType.ConfigurationAs<BlockListConfiguration>();
 
-            var contentTypeKeys = config.Blocks
+            var contentTypeKeys = config?.Blocks?
                 .Select(x => x.ContentElementTypeKey)
                 .Distinct();
 
-            var settingsTypeKeys = config.Blocks
-                .Select(x => x.SettingsElementTypeKey)
-                .OfType<Guid>()
+            var settingsTypeKeys = config?.Blocks?
+                .Where(x => x.SettingsElementTypeKey != null)
+                .Select(x => x.SettingsElementTypeKey!.Value)
                 .Distinct();
 
-            var multiple = config.ValidationLimit?.Max != 1;
+            var multiple = config?.ValidationLimit.Max != 1;
 
-            var blockType = GetBlockType(contentTypeKeys, settingsTypeKeys);
+            var blockType = GetBlockType(contentTypeKeys ?? [], settingsTypeKeys ?? []);
 
             if (multiple == true)
             {
@@ -48,7 +48,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         private Type GetBlockType(IEnumerable<Guid> contentTypeKeys, IEnumerable<Guid> settingsTypeKeys)
         {
             var contentTypeAliases = _contentTypeService
-                .GetAll(contentTypeKeys)
+                .GetMany(contentTypeKeys)
                 .Select(x => x.Alias)
                 .ToArray();
 
@@ -57,24 +57,24 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
                 return typeof(BlockListItem);
             }
 
-            var contentItemType = GetPublishedModelType(contentTypeAliases) ?? typeof(IPublishedElement);
+            var contentModelType = GetPublishedModelType(contentTypeAliases) ?? typeof(IPublishedElement);
 
             var settingsTypeAliases = _contentTypeService
-                .GetAll(settingsTypeKeys)
+                .GetMany(settingsTypeKeys)
                 .Select(x => x.Alias)
                 .ToArray();
 
             if (settingsTypeAliases?.Any() == true)
             {
-                var settingsItemType = GetPublishedModelType(settingsTypeAliases);
+                var settingsModelType = GetPublishedModelType(settingsTypeAliases);
 
-                if (settingsItemType != null)
+                if (settingsModelType != null)
                 {
-                    return typeof(BlockListItem<,>).MakeGenericType(contentItemType, settingsItemType);
+                    return typeof(BlockListItem<,>).MakeGenericType(contentModelType, settingsModelType);
                 }
             }
 
-            return typeof(BlockListItem<>).MakeGenericType(contentItemType);
+            return typeof(BlockListItem<>).MakeGenericType(contentModelType);
         }
     }
 }

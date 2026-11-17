@@ -3,42 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Composing;
+using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
+using Umbraco.Cms.Core.Services;
 using Core = Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public class MultiNodeTreePickerValueConverter : SuperValueConverterBase
     {
-        private readonly IPropertyValueConverter _valueConverter;
+        private readonly IContentTypeService _contentTypeService;
+        private readonly IMediaTypeService _mediaTypeService;
+        private readonly IMemberTypeService _memberTypeService;
 
-        public MultiNodeTreePickerValueConverter(Core.MultiNodeTreePickerValueConverter valueConverter, TypeLoader typeLoader)
+        public MultiNodeTreePickerValueConverter(Core.MultiNodeTreePickerValueConverter valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService, IMediaTypeService mediaTypeService, IMemberTypeService memberTypeService)
             : base(valueConverter, typeLoader)
         {
-            _valueConverter = valueConverter;
+            _contentTypeService = contentTypeService;
+            _mediaTypeService = mediaTypeService;
+            _memberTypeService = memberTypeService;
         }
 
-        public override string[] IgnoreProperties => new[]
-        {
+        public override string[] IgnoreProperties =>
+        [
             Constants.Conventions.Content.InternalRedirectId,
             Constants.Conventions.Content.Redirect
-        };
+        ];
 
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
-            if (IgnoreProperties.Contains(propertyType.Alias) == true)
-            {
-                return _valueConverter.GetPropertyValueType(propertyType);
-            }
-
             var config = propertyType.DataType.ConfigurationAs<MultiNodePickerConfiguration>();
 
-            var allowedTypes = config.Filter?.Split(',') ?? new string[0];
+#if NET11_0_OR_GREATER
+            var multiple = config?.ValidationLimit?.Max != 1;
+#else
+            var multiple = config?.MaxNumber != 1;
+#endif
 
-            var multiple = config.MaxNumber != 1;
+            var keys = config?.Filter?
+                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Guid.TryParse(x, out var guid) ? guid : default);
 
-            var itemType = GetPublishedModelType(allowedTypes) ?? typeof(IPublishedContent);
+            var itemType = GetItemType(config?.TreeSource?.ObjectType, keys ?? []);
 
             if (multiple == true)
             {
@@ -46,6 +53,33 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             }
 
             return itemType;
+        }
+
+        private Type GetItemType(string? objectType, IEnumerable<Guid> keys)
+        {
+            IEnumerable<IContentTypeBase> allowedTypes = objectType switch
+            {
+                Constants.UdiEntityType.Document => _contentTypeService.GetMany(keys),
+                Constants.UdiEntityType.Media => _mediaTypeService.GetMany(keys),
+                Constants.UdiEntityType.Member => _memberTypeService.GetMany(keys),
+                _ => throw new NotSupportedException($"The object type '{objectType}' is not supported.")
+            };
+
+            var aliases = allowedTypes
+                .Select(x => x.Alias)
+                .ToArray();
+
+            if (aliases?.Any() == true)
+            {
+                var modelType = GetPublishedModelType(aliases);
+
+                if (modelType != null)
+                {
+                    return modelType;
+                }
+            }
+
+            return typeof(IPublishedContent);
         }
     }
 }

@@ -8,7 +8,7 @@ SuperValueConverters is a collection of powerful property value converters for U
 
 ## Getting started
 
-This package is supported on Umbraco v10 (LTS) and v13 (LTS), but should also work on all intermediate versions.
+This package is supported on Umbraco v17 (LTS), but should also work on all intermediate versions _(from v15.4+ to v19)_.
 
 Once installed you don't need to do anything to activate SuperValueConverters.
 
@@ -26,16 +26,15 @@ To install from within Visual Studio, use the NuGet Package Manager UI or run th
 
 ## Usage
 
-Where a picker that returns multiple items _(such as [Multi Node Picker](https://docs.umbraco.com/umbraco-cms/13.latest/fundamentals/backoffice/property-editors/built-in-umbraco-property-editors/multinode-treepicker) or [Media Picker](https://docs.umbraco.com/umbraco-cms/13.latest/fundamentals/backoffice/property-editors/built-in-umbraco-property-editors/media-picker-3) or [Block List](https://docs.umbraco.com/umbraco-cms/13.latest/fundamentals/backoffice/property-editors/built-in-umbraco-property-editors/block-editor/block-list-editor))_ has been configured to only allow a single item to be selected, the returned value type will now be singular rather than `IEnumerable<T>`.
+Where a picker or property editor that returns multiple items has been configured to only allow a single item to be selected, the returned value type will now be singular rather than `IEnumerable<T>`.
 
 Currently the following datatypes are supported:
 
 | Editor | Return Type |
 |--------|-------------|
-| Block List Editor | `BlockListItem<TContent, TSettings>` or `IEnumerable` |
-| Media Picker _(v3)_ | `MediaWithCrops<TMedia>` or `IEnumerable` |
-| Multi-Node Tree Picker | `IPublishedContent` or `IEnumerable` |
-| Nested Content _(deprecated)_ | `IPublishedElement` or `IEnumerable` |
+| [Block List Editor](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/block-editor/block-list-editor) | `BlockListItem<TContent, TSettings>` or `IEnumerable` |
+| [Media Picker](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/media-picker-3) | `MediaWithCrops<TMedia>` or `IEnumerable` |
+| [Multi-Node Tree Picker](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/content-picker) _(deprecated)_ | `IPublishedContent` or `IEnumerable` |
 
 Supported value converters will no longer return `null` if no value has been picked - an empty collection will be returned instead, preventing the need for null checks.
 
