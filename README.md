@@ -2,7 +2,7 @@
 
 <img src="docs/img/logo.png?raw=true" alt="Umbraco SuperValueConverters" width="250" align="right" />
 
-[![NuGet release](https://img.shields.io/nuget/v/Our.Umbraco.SuperValueConverters.svg)](https://www.nuget.org/packages/Our.Umbraco.SuperValueConverters/)
+[![NuGet release](https://img.shields.io/nuget/v/Umbraco.Community.SuperValueConverters.svg)](https://www.nuget.org/packages/Umbraco.Community.SuperValueConverters/)
 
 SuperValueConverters is a collection of powerful property value converters for Umbraco, eliminating the need for casting and null checks on Umbraco picker values in views or controllers and helping to keep code cleaner.
 
@@ -14,15 +14,15 @@ Once installed you don't need to do anything to activate SuperValueConverters.
 
 ### Installation
 
-SuperValueConverters is available via [NuGet](https://www.nuget.org/packages/Our.Umbraco.SuperValueConverters/).
+SuperValueConverters is available via [NuGet](https://www.nuget.org/packages/Umbraco.Community.SuperValueConverters/).
 
 To install with the .NET CLI, run the following command:
 
-    $ dotnet add package Our.Umbraco.SuperValueConverters
+    $ dotnet add package Umbraco.Community.SuperValueConverters
 
 To install from within Visual Studio, use the NuGet Package Manager UI or run the following command:
 
-    PM> Install-Package Our.Umbraco.SuperValueConverters
+    PM> Install-Package Umbraco.Community.SuperValueConverters
 
 ## Usage
 

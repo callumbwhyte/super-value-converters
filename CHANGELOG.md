@@ -11,6 +11,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * Support for new "single" Block / Document Picker / Media Picker editors
 * Delivery API output is passed through to the Core value converters
 
+### Changed
+* Package namespace is now `Umbraco.Community.SuperValueConverters`
+
 ### Removed
 * Nested Content support, as it was removed from Umbraco
 * Support for Umbraco v9-v13, which remains on the 4.x releases

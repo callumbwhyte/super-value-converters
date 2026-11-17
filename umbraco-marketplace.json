@@ -12,5 +12,36 @@
     "SyncContributorsFromRepository": true
   },
   "DocumentationUrl": "https://github.com/callumbwhyte/super-value-converters",
-  "IssueTrackerUrl": "https://github.com/callumbwhyte/super-value-converters/issues"
+  "IssueTrackerUrl": "https://github.com/callumbwhyte/super-value-converters/issues",
+  "LookingForContributors": true,
+  "VersionSpecificPackageIds": [
+    {
+      "UmbracoMajorVersion": 7,
+      "PackageId": "Our.Umbraco.SuperValueConverters"
+    },
+    {
+      "UmbracoMajorVersion": 8,
+      "PackageId": "Our.Umbraco.SuperValueConverters"
+    },
+    {
+      "UmbracoMajorVersion": 9,
+      "PackageId": "Our.Umbraco.SuperValueConverters"
+    },
+    {
+      "UmbracoMajorVersion": 10,
+      "PackageId": "Our.Umbraco.SuperValueConverters"
+    },
+    {
+      "UmbracoMajorVersion": 11,
+      "PackageId": "Our.Umbraco.SuperValueConverters"
+    },
+    {
+      "UmbracoMajorVersion": 12,
+      "PackageId": "Our.Umbraco.SuperValueConverters"
+    },
+    {
+      "UmbracoMajorVersion": 13,
+      "PackageId": "Our.Umbraco.SuperValueConverters"
+    }
+  ]
 }

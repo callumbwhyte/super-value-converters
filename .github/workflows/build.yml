@@ -1,0 +1,41 @@
+name: Build Umbraco SuperValueConverters
+
+on:
+  workflow_dispatch:
+    inputs:
+      packageVersion:
+        type: string
+        description: 'Package version (e.g. 1.2.3)'
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  BUILD_CONFIGURATION: Release
+  PACKAGE_NAME: Umbraco.Community.SuperValueConverters
+
+jobs:
+  build:
+    name: Build package
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Build NuGet package
+        run: |
+          dotnet pack src/${{ env.PACKAGE_NAME }}.slnx `
+            --configuration ${{ env.BUILD_CONFIGURATION }} `
+            --output "${{ github.workspace }}\artifacts\nuget" `
+            -p:Version=${{ inputs.packageVersion }} `
+            -p:PackageVersion=${{ inputs.packageVersion }}
+
+      - name: Publish NuGet package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE_NAME }}.${{ inputs.packageVersion }}
+          path: artifacts/nuget/*.nupkg
+          if-no-files-found: error
+          retention-days: 30
