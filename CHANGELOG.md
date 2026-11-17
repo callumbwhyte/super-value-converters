@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [5.0.1] - Unreleased
 ### Fixed
+* Blocks and media are no longer dropped from properties that allow items of several types sharing an interface
 * Multi-Node Tree Pickers set to content, or with no start node type, no longer throw `NotSupportedException` during model generation
 * Single Block properties on Umbraco v17-v18 are typed by their allowed element types, rather than as a plain `BlockListItem`
 

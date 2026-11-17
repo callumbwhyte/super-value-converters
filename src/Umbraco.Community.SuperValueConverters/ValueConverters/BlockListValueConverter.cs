@@ -89,4 +89,32 @@ internal class BlockListValueConverter<T> : SuperValueConverterBase
 
         return typeof(BlockListItem<>).MakeGenericType(contentModelType);
     }
+
+    protected override object? ConvertItemToType(object? item, Type type)
+    {
+        if (item is not BlockListItem block)
+        {
+            return null;
+        }
+
+        var typeArguments = type.GetGenericArguments();
+
+        var contentType = typeArguments.ElementAtOrDefault(0) ?? typeof(IPublishedElement);
+
+        if (contentType.IsInstanceOfType(block.Content) == false)
+        {
+            return null;
+        }
+
+        var settingsType = typeArguments.ElementAtOrDefault(1) ?? typeof(IPublishedElement);
+
+        if (block.Settings != null && !settingsType.IsInstanceOfType(block.Settings))
+        {
+            return null;
+        }
+
+        var constructor = type.GetConstructor([typeof(Guid), contentType, typeof(Guid?), settingsType]);
+
+        return constructor?.Invoke([block.ContentKey, block.Content, block.SettingsKey, block.Settings]);
+    }
 }

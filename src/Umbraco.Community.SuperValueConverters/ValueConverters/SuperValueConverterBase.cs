@@ -51,33 +51,36 @@ public abstract class SuperValueConverterBase : PropertyValueConverterBase, IDel
 
         var multiple = modelType.IsIEnumerable() == true;
 
-        var itemType = multiple == true ? modelType.GetInnerType() : modelType;
+        var itemType = multiple ? modelType.GetInnerType() : modelType;
 
         var result = itemType.CreateList();
 
-        if (value is IEnumerable items)
+        var items = value as IEnumerable ?? new[] { value };
+
+        foreach (var item in items)
         {
-            foreach (var item in items)
+            if (itemType.IsAssignableFrom(item?.GetType()) == true)
             {
-                if (item != null)
+                result.Add(item);
+            }
+            else
+            {
+                var converted = ConvertItemToType(item, itemType);
+
+                if (converted != null)
                 {
-                    if (itemType.IsAssignableFrom(item.GetType()) == true)
-                    {
-                        result.Add(item);
-                    }
+                    result.Add(converted);
                 }
             }
         }
-        else if (value is object single)
-        {
-            if (itemType.IsAssignableFrom(single.GetType()) == true)
-            {
-                result.Add(single);
-            }
-        }
 
-        return multiple == true ? result : result?.FirstOrNull();
+        return multiple ? result : result?.FirstOrNull();
     }
+
+    /// <summary>
+    /// Converts an individual item to the given type
+    /// </summary>
+    protected virtual object? ConvertItemToType(object? item, Type type) => null;
 
     /// <summary>
     /// Gets the common published model type for the given content type aliases

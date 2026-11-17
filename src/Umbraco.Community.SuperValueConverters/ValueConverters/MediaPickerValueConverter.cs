@@ -2,6 +2,7 @@
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
+using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 using Umbraco.Cms.Core.Services;
 
 namespace Umbraco.Community.SuperValueConverters.ValueConverters;
@@ -71,5 +72,26 @@ internal class MediaPickerValueConverter<T> : SuperValueConverterBase
         }
 
         return typeof(MediaWithCrops);
+    }
+
+    protected override object? ConvertItemToType(object? item, Type type)
+    {
+        if (item is not MediaWithCrops media)
+        {
+            return null;
+        }
+
+        var typeArguments = type.GetGenericArguments();
+
+        var mediaType = typeArguments.ElementAtOrDefault(0) ?? typeof(IPublishedContent);
+
+        if (mediaType.IsInstanceOfType(media.Content) == false)
+        {
+            return null;
+        }
+
+        var constructor = type.GetConstructor([mediaType, typeof(IPublishedValueFallback), typeof(ImageCropperValue)]);
+
+        return constructor?.Invoke([media.Content, null, media.LocalCrops]);
     }
 }
