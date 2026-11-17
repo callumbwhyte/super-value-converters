@@ -19,10 +19,26 @@ namespace Our.Umbraco.SuperValueConverters
             Register<SingleBlockPropertyValueConverter, ValueConverters.BlockListValueConverter<SingleBlockPropertyValueConverter>>(builder);
 #endif
 
+            Register<ContentPickerValueConverter, ValueConverters.ContentPickerValueConverter<ContentPickerValueConverter>>(builder);
+
+#if NET11_0_OR_GREATER
+            Register<MultipleDocumentPickerValueConverter, ValueConverters.ContentPickerValueConverter<MultipleDocumentPickerValueConverter>>(builder);
+#endif
+
+#if NET11_0_OR_GREATER
+            Register<ElementPickerValueConverter, ValueConverters.ElementPickerValueConverter<ElementPickerValueConverter>>(builder);
+#endif
+
             Register<MediaPickerWithCropsValueConverter, ValueConverters.MediaPickerValueConverter<MediaPickerWithCropsValueConverter>>(builder);
 
 #if NET11_0_OR_GREATER
             Register<SingleMediaPickerValueConverter, ValueConverters.MediaPickerValueConverter<SingleMediaPickerValueConverter>>(builder);
+#endif
+
+            Register<MemberPickerValueConverter, ValueConverters.MemberPickerValueConverter<MemberPickerValueConverter>>(builder);
+
+#if NET11_0_OR_GREATER
+            Register<MultipleMemberPickerValueConverter, ValueConverters.MemberPickerValueConverter<MultipleMemberPickerValueConverter>>(builder);
 #endif
 
             Register<MultiNodeTreePickerValueConverter, ValueConverters.MultiNodeTreePickerValueConverter<MultiNodeTreePickerValueConverter>>(builder);

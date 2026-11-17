@@ -33,7 +33,10 @@ Currently the following datatypes are supported:
 | Editor | Return Type |
 |--------|-------------|
 | [Block List Editor](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/block-editor/block-list-editor) | `BlockListItem<TContent, TSettings>` or `IEnumerable` |
+| [Content Picker](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/document-picker) | `IPublishedContent` or `IEnumerable` |
+| [Element Picker](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/element-picker) | `IPublishedElement` or `IEnumerable` |
 | [Media Picker](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/media-picker-3) | `MediaWithCrops<TMedia>` or `IEnumerable` |
+| [Member Picker](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/member-picker) | `IPublishedContent` or `IEnumerable` |
 | [Multi-Node Tree Picker](https://docs.umbraco.com/umbraco-cms/model-your-content/property-editors/built-in-umbraco-property-editors/content-picker) _(deprecated)_ | `IPublishedContent` or `IEnumerable` |
 
 Supported value converters will no longer return `null` if no value has been picked - an empty collection will be returned instead, preventing the need for null checks.
