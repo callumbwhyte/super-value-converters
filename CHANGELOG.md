@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ## [5.0.0] - 2026-11-17
 ### Added
 * Support for SuperValueConverters on Umbraco v15.4-v17 (LTS) and v18-v19
+* Support for new "single" Block / Document Picker / Media Picker editors
 * Delivery API output is passed through to the Core value converters
 
 ### Removed

@@ -19,11 +19,6 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             _typeLoader = typeLoader;
         }
 
-        /// <summary>
-        /// Property aliases to ignore, using the Core value converter instead
-        /// </summary>
-        public virtual string[] IgnoreProperties { get; } = [];
-
         /// <inheritdoc />
         public override bool IsConverter(IPublishedPropertyType propertyType)
         {

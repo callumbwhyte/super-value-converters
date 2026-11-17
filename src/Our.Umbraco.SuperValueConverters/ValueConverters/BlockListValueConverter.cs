@@ -6,15 +6,16 @@ using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Cms.Core.Services;
-using Core = Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    internal class BlockListValueConverter : SuperValueConverterBase
+    [HideFromTypeFinder]
+    internal class BlockListValueConverter<T> : SuperValueConverterBase
+        where T : IPropertyValueConverter
     {
         private readonly IContentTypeService _contentTypeService;
 
-        public BlockListValueConverter(Core.BlockListPropertyValueConverter valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService)
+        public BlockListValueConverter(T valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService)
             : base(valueConverter, typeLoader)
         {
             _contentTypeService = contentTypeService;
@@ -22,20 +23,35 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
-            var config = propertyType.DataType.ConfigurationAs<BlockListConfiguration>();
+            BlockListConfiguration.BlockConfiguration[] blocks = [];
 
-            var contentTypeKeys = config?.Blocks?
+            var multiple = false;
+
+            var config = propertyType.DataType.ConfigurationObject;
+
+            if (config is BlockListConfiguration multi)
+            {
+                blocks = multi.Blocks;
+
+                multiple = multi.ValidationLimit?.Max != 1;
+            }
+#if NET11_0_OR_GREATER
+            else if (config is SingleBlockConfiguration single)
+            {
+                blocks = single.Blocks;
+            }
+#endif
+
+            var contentTypeKeys = blocks
                 .Select(x => x.ContentElementTypeKey)
                 .Distinct();
 
-            var settingsTypeKeys = config?.Blocks?
+            var settingsTypeKeys = blocks
                 .Where(x => x.SettingsElementTypeKey != null)
                 .Select(x => x.SettingsElementTypeKey!.Value)
                 .Distinct();
 
-            var multiple = config?.ValidationLimit.Max != 1;
-
-            var blockType = GetBlockType(contentTypeKeys ?? [], settingsTypeKeys ?? []);
+            var blockType = GetBlockType(contentTypeKeys, settingsTypeKeys);
 
             if (multiple == true)
             {

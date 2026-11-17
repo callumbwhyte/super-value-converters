@@ -6,15 +6,16 @@ using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Cms.Core.Services;
-using Core = Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    internal class MediaPickerValueConverter : SuperValueConverterBase
+    [HideFromTypeFinder]
+    internal class MediaPickerValueConverter<T> : SuperValueConverterBase
+        where T : IPropertyValueConverter
     {
         private readonly IMediaTypeService _mediaTypeService;
 
-        public MediaPickerValueConverter(Core.MediaPickerWithCropsValueConverter valueConverter, TypeLoader typeLoader, IMediaTypeService mediaTypeService)
+        public MediaPickerValueConverter(T valueConverter, TypeLoader typeLoader, IMediaTypeService mediaTypeService)
             : base(valueConverter, typeLoader)
         {
             _mediaTypeService = mediaTypeService;
@@ -22,11 +23,26 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
-            var config = propertyType.DataType.ConfigurationAs<MediaPicker3Configuration>();
+            string? filter = null;
 
-            var multiple = config?.ValidationLimit.Max != 1;
+            var multiple = false;
 
-            var keys = config?.Filter?
+            var config = propertyType.DataType.ConfigurationObject;
+
+            if (config is MediaPicker3Configuration multi)
+            {
+                filter = multi.Filter;
+
+                multiple = multi.ValidationLimit?.Max != 1;
+            }
+#if NET11_0_OR_GREATER
+            else if (config is SingleMediaPickerConfiguration single)
+            {
+                filter = single.Filter;
+            }
+#endif
+
+            var keys = filter?
                 .Split(",", StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => Guid.TryParse(x, out var guid) ? guid : default);
 

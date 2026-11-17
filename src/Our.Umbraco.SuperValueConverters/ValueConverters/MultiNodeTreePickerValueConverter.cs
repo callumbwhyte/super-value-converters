@@ -7,29 +7,24 @@ using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Cms.Core.Services;
-using Core = Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
-    public class MultiNodeTreePickerValueConverter : SuperValueConverterBase
+    [HideFromTypeFinder]
+    internal class MultiNodeTreePickerValueConverter<T> : SuperValueConverterBase
+        where T : IPropertyValueConverter
     {
         private readonly IContentTypeService _contentTypeService;
         private readonly IMediaTypeService _mediaTypeService;
         private readonly IMemberTypeService _memberTypeService;
 
-        public MultiNodeTreePickerValueConverter(Core.MultiNodeTreePickerValueConverter valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService, IMediaTypeService mediaTypeService, IMemberTypeService memberTypeService)
+        public MultiNodeTreePickerValueConverter(T valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService, IMediaTypeService mediaTypeService, IMemberTypeService memberTypeService)
             : base(valueConverter, typeLoader)
         {
             _contentTypeService = contentTypeService;
             _mediaTypeService = mediaTypeService;
             _memberTypeService = memberTypeService;
         }
-
-        public override string[] IgnoreProperties =>
-        [
-            Constants.Conventions.Content.InternalRedirectId,
-            Constants.Conventions.Content.Redirect
-        ];
 
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
         {
