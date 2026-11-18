@@ -4,11 +4,11 @@ internal static class CollectionExtensions
 {
     public static IEnumerable<T> IntersectMany<T>(this IEnumerable<IEnumerable<T>> values)
     {
-        IEnumerable<T> intersection = [];
+        IEnumerable<T>? intersection = null;
 
         foreach (var value in values)
         {
-            if (intersection?.Any() != true)
+            if (intersection == null)
             {
                 intersection = [.. value];
             }
@@ -18,6 +18,6 @@ internal static class CollectionExtensions
             }
         }
 
-        return intersection;
+        return intersection ?? [];
     }
 }
