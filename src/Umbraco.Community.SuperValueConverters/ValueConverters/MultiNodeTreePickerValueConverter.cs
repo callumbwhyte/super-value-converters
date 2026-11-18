@@ -1,9 +1,6 @@
-﻿using Umbraco.Cms.Core;
-using Umbraco.Cms.Core.Composing;
-using Umbraco.Cms.Core.Models;
+﻿using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Cms.Core.Services;
 
 namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 
@@ -11,16 +8,12 @@ namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 internal class MultiNodeTreePickerValueConverter<T> : SuperValueConverterBase
     where T : IPropertyValueConverter
 {
-    private readonly IContentTypeService _contentTypeService;
-    private readonly IMediaTypeService _mediaTypeService;
-    private readonly IMemberTypeService _memberTypeService;
+    private readonly ModelFactory _modelFactory;
 
-    public MultiNodeTreePickerValueConverter(T valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService, IMediaTypeService mediaTypeService, IMemberTypeService memberTypeService)
-        : base(valueConverter, typeLoader)
+    public MultiNodeTreePickerValueConverter(T valueConverter, ModelFactory modelFactory)
+        : base(valueConverter)
     {
-        _contentTypeService = contentTypeService;
-        _mediaTypeService = mediaTypeService;
-        _memberTypeService = memberTypeService;
+        _modelFactory = modelFactory;
     }
 
     public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -49,28 +42,20 @@ internal class MultiNodeTreePickerValueConverter<T> : SuperValueConverterBase
 
     private Type GetItemType(string? objectType, IEnumerable<Guid> keys)
     {
-        IEnumerable<IContentTypeBase> allowedTypes = objectType switch
+        var itemType = objectType?.ToLowerInvariant() switch
         {
-            // Umbraco stores item types as "content" instead of "document"
-            "content" => _contentTypeService.GetMany(keys),
-            Constants.UdiEntityType.Document => _contentTypeService.GetMany(keys),
-            Constants.UdiEntityType.Media => _mediaTypeService.GetMany(keys),
-            Constants.UdiEntityType.Member => _memberTypeService.GetMany(keys),
+            "content" => PublishedItemType.Content,
+            "document" => PublishedItemType.Content,
+            "media" => PublishedItemType.Media,
+            "member" => PublishedItemType.Member,
             _ => throw new NotSupportedException($"The object type '{objectType}' is not supported.")
         };
 
-        var aliases = allowedTypes
-            .Select(x => x.Alias)
-            .ToArray();
+        var modelType = _modelFactory.GetModelType(itemType, keys);
 
-        if (aliases?.Any() == true)
+        if (modelType != null)
         {
-            var modelType = GetPublishedModelType(aliases);
-
-            if (modelType != null)
-            {
-                return modelType;
-            }
+            return modelType;
         }
 
         return typeof(IPublishedContent);

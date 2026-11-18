@@ -2,7 +2,6 @@
 using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Cms.Core.Services;
 
 namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 
@@ -10,12 +9,12 @@ namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 internal class BlockListValueConverter<T> : SuperValueConverterBase
     where T : IPropertyValueConverter
 {
-    private readonly IContentTypeService _contentTypeService;
+    private readonly ModelFactory _modelFactory;
 
-    public BlockListValueConverter(T valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService)
-        : base(valueConverter, typeLoader)
+    public BlockListValueConverter(T valueConverter, ModelFactory modelFactory)
+        : base(valueConverter)
     {
-        _contentTypeService = contentTypeService;
+        _modelFactory = modelFactory;
     }
 
     public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -60,34 +59,20 @@ internal class BlockListValueConverter<T> : SuperValueConverterBase
 
     private Type GetBlockType(IEnumerable<Guid> contentTypeKeys, IEnumerable<Guid> settingsTypeKeys)
     {
-        var contentTypeAliases = _contentTypeService
-            .GetMany(contentTypeKeys)
-            .Select(x => x.Alias)
-            .ToArray();
+        var contentModelType = _modelFactory.GetModelType(PublishedItemType.Element, contentTypeKeys);
 
-        if (contentTypeAliases?.Any() != true)
+        var settingsModelType = _modelFactory.GetModelType(PublishedItemType.Element, settingsTypeKeys);
+
+        if (settingsModelType != null)
         {
-            return typeof(BlockListItem);
+            return typeof(BlockListItem<,>).MakeGenericType(contentModelType ?? typeof(IPublishedElement), settingsModelType);
+        }
+        else if (contentModelType != null)
+        {
+            return typeof(BlockListItem<>).MakeGenericType(contentModelType);
         }
 
-        var contentModelType = GetPublishedModelType(contentTypeAliases) ?? typeof(IPublishedElement);
-
-        var settingsTypeAliases = _contentTypeService
-            .GetMany(settingsTypeKeys)
-            .Select(x => x.Alias)
-            .ToArray();
-
-        if (settingsTypeAliases?.Any() == true)
-        {
-            var settingsModelType = GetPublishedModelType(settingsTypeAliases);
-
-            if (settingsModelType != null)
-            {
-                return typeof(BlockListItem<,>).MakeGenericType(contentModelType, settingsModelType);
-            }
-        }
-
-        return typeof(BlockListItem<>).MakeGenericType(contentModelType);
+        return typeof(BlockListItem);
     }
 
     protected override object? ConvertItemToType(object? item, Type type)
@@ -113,8 +98,6 @@ internal class BlockListValueConverter<T> : SuperValueConverterBase
             return null;
         }
 
-        var constructor = type.GetConstructor([typeof(Guid), contentType, typeof(Guid?), settingsType]);
-
-        return constructor?.Invoke([block.ContentKey, block.Content, block.SettingsKey, block.Settings]);
+        return _modelFactory.CreateModel(type, block.ContentKey, block.Content, block.SettingsKey, block.Settings);
     }
 }

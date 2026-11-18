@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [5.0.1] - Unreleased
+### Added
+* New `ModelFactory` for more efficiently locating & converting types
+
 ### Fixed
 * Blocks and media are no longer dropped from properties that allow items of several types sharing an interface
 * Multi-Node Tree Pickers set to content, or with no start node type, no longer throw `NotSupportedException` during model generation

@@ -1,7 +1,6 @@
 ﻿using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Cms.Core.Services;
 
 namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 
@@ -9,12 +8,12 @@ namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 internal class ContentPickerValueConverter<T> : SuperValueConverterBase
     where T : IPropertyValueConverter
 {
-    private readonly IContentTypeService _contentTypeService;
+    private readonly ModelFactory _modelFactory;
 
-    public ContentPickerValueConverter(T valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService)
-        : base(valueConverter, typeLoader)
+    public ContentPickerValueConverter(T valueConverter, ModelFactory modelFactory)
+        : base(valueConverter)
     {
-        _contentTypeService = contentTypeService;
+        _modelFactory = modelFactory;
     }
 
     public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -54,19 +53,11 @@ internal class ContentPickerValueConverter<T> : SuperValueConverterBase
 
     private Type GetItemType(IEnumerable<Guid> keys)
     {
-        var aliases = _contentTypeService
-            .GetMany(keys)
-            .Select(x => x.Alias)
-            .ToArray();
+        var modelType = _modelFactory.GetModelType(PublishedItemType.Content, keys);
 
-        if (aliases?.Any() == true)
+        if (modelType != null)
         {
-            var modelType = GetPublishedModelType(aliases);
-
-            if (modelType != null)
-            {
-                return modelType;
-            }
+            return modelType;
         }
 
         return typeof(IPublishedContent);

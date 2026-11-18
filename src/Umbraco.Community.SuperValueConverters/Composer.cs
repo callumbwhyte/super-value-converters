@@ -13,6 +13,8 @@ public class Composer : IComposer
 {
     public void Compose(IUmbracoBuilder builder)
     {
+        builder.Services.AddSingleton<ModelFactory>();
+
         Register<BlockListPropertyValueConverter, ValueConverters.BlockListValueConverter<BlockListPropertyValueConverter>>(builder);
 
 #if NET10_0_OR_GREATER

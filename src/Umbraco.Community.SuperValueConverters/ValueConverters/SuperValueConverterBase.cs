@@ -1,5 +1,4 @@
 using System.Collections;
-using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Cms.Core.PropertyEditors.DeliveryApi;
@@ -10,12 +9,10 @@ namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 public abstract class SuperValueConverterBase : PropertyValueConverterBase, IDeliveryApiPropertyValueConverter
 {
     private readonly IPropertyValueConverter _valueConverter;
-    private readonly TypeLoader _typeLoader;
 
-    public SuperValueConverterBase(IPropertyValueConverter valueConverter, TypeLoader typeLoader)
+    public SuperValueConverterBase(IPropertyValueConverter valueConverter)
     {
         _valueConverter = valueConverter;
-        _typeLoader = typeLoader;
     }
 
     /// <inheritdoc />
@@ -81,19 +78,6 @@ public abstract class SuperValueConverterBase : PropertyValueConverterBase, IDel
     /// Converts an individual item to the given type
     /// </summary>
     protected virtual object? ConvertItemToType(object? item, Type type) => null;
-
-    /// <summary>
-    /// Gets the common published model type for the given content type aliases
-    /// </summary>
-    protected virtual Type? GetPublishedModelType(params string[] contentTypeAliases)
-    {
-        var types = _typeLoader.GetPublishedModelTypes(contentTypeAliases);
-
-        return _typeLoader.FindCommonInterfaces(types, type =>
-        {
-            return type.Namespace != typeof(IPublishedElement).Namespace;
-        });
-    }
 
     #region Delivery API
 

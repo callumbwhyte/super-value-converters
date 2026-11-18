@@ -1,7 +1,6 @@
 ﻿using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Cms.Core.Services;
 
 namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 
@@ -9,12 +8,12 @@ namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 internal class MemberPickerValueConverter<T> : SuperValueConverterBase
     where T : IPropertyValueConverter
 {
-    private readonly IMemberTypeService _memberTypeService;
+    private readonly ModelFactory _modelFactory;
 
-    public MemberPickerValueConverter(T valueConverter, TypeLoader typeLoader, IMemberTypeService memberTypeService)
-        : base(valueConverter, typeLoader)
+    public MemberPickerValueConverter(T valueConverter, ModelFactory modelFactory)
+        : base(valueConverter)
     {
-        _memberTypeService = memberTypeService;
+        _modelFactory = modelFactory;
     }
 
     public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -54,19 +53,11 @@ internal class MemberPickerValueConverter<T> : SuperValueConverterBase
 
     private Type GetItemType(IEnumerable<Guid> keys)
     {
-        var aliases = _memberTypeService
-            .GetMany(keys)
-            .Select(x => x.Alias)
-            .ToArray();
+        var modelType = _modelFactory.GetModelType(PublishedItemType.Member, keys);
 
-        if (aliases?.Any() == true)
+        if (modelType != null)
         {
-            var modelType = GetPublishedModelType(aliases);
-
-            if (modelType != null)
-            {
-                return modelType;
-            }
+            return modelType;
         }
 
         return typeof(IPublishedContent);

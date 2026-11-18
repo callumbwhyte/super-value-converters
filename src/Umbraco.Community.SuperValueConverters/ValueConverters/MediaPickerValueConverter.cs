@@ -2,8 +2,6 @@
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
-using Umbraco.Cms.Core.Services;
 
 namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 
@@ -11,12 +9,12 @@ namespace Umbraco.Community.SuperValueConverters.ValueConverters;
 internal class MediaPickerValueConverter<T> : SuperValueConverterBase
     where T : IPropertyValueConverter
 {
-    private readonly IMediaTypeService _mediaTypeService;
+    private readonly ModelFactory _modelFactory;
 
-    public MediaPickerValueConverter(T valueConverter, TypeLoader typeLoader, IMediaTypeService mediaTypeService)
-        : base(valueConverter, typeLoader)
+    public MediaPickerValueConverter(T valueConverter, ModelFactory modelFactory)
+        : base(valueConverter)
     {
-        _mediaTypeService = mediaTypeService;
+        _modelFactory = modelFactory;
     }
 
     public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -56,19 +54,11 @@ internal class MediaPickerValueConverter<T> : SuperValueConverterBase
 
     private Type GetItemType(IEnumerable<Guid> keys)
     {
-        var aliases = _mediaTypeService
-            .GetMany(keys)
-            .Select(x => x.Alias)
-            .ToArray();
+        var modelType = _modelFactory.GetModelType(PublishedItemType.Media, keys);
 
-        if (aliases?.Any() == true)
+        if (modelType != null)
         {
-            var modelType = GetPublishedModelType(aliases);
-
-            if (modelType != null)
-            {
-                return typeof(MediaWithCrops<>).MakeGenericType(modelType);
-            }
+            return typeof(MediaWithCrops<>).MakeGenericType(modelType);
         }
 
         return typeof(MediaWithCrops);
@@ -90,8 +80,6 @@ internal class MediaPickerValueConverter<T> : SuperValueConverterBase
             return null;
         }
 
-        var constructor = type.GetConstructor([mediaType, typeof(IPublishedValueFallback), typeof(ImageCropperValue)]);
-
-        return constructor?.Invoke([media.Content, null, media.LocalCrops]);
+        return _modelFactory.CreateModel(type, media.Content, media.LocalCrops);
     }
 }
