@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Cms.Core.Services;
 using Core = Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 
 namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     internal class BlockListValueConverter : SuperValueConverterBase
     {
-        private readonly IContentTypeService _contentTypeService;
+        private readonly ModelFactory _modelFactory;
 
-        public BlockListValueConverter(Core.BlockListPropertyValueConverter valueConverter, TypeLoader typeLoader, IContentTypeService contentTypeService)
-            : base(valueConverter, typeLoader)
+        public BlockListValueConverter(Core.BlockListPropertyValueConverter valueConverter, ModelFactory modelFactory)
+            : base(valueConverter, modelFactory)
         {
-            _contentTypeService = contentTypeService;
+            _modelFactory = modelFactory;
         }
 
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -47,34 +45,20 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         private Type GetBlockType(IEnumerable<Guid> contentTypeKeys, IEnumerable<Guid> settingsTypeKeys)
         {
-            var contentTypeAliases = _contentTypeService
-                .GetAll(contentTypeKeys)
-                .Select(x => x.Alias)
-                .ToArray();
+            var contentModelType = _modelFactory.GetModelType(PublishedItemType.Element, contentTypeKeys);
 
-            if (contentTypeAliases?.Any() != true)
+            var settingsModelType = _modelFactory.GetModelType(PublishedItemType.Element, settingsTypeKeys);
+
+            if (settingsModelType != null)
             {
-                return typeof(BlockListItem);
+                return typeof(BlockListItem<,>).MakeGenericType(contentModelType ?? typeof(IPublishedElement), settingsModelType);
+            }
+            else if (contentModelType != null)
+            {
+                return typeof(BlockListItem<>).MakeGenericType(contentModelType);
             }
 
-            var contentItemType = GetPublishedModelType(contentTypeAliases) ?? typeof(IPublishedElement);
-
-            var settingsTypeAliases = _contentTypeService
-                .GetAll(settingsTypeKeys)
-                .Select(x => x.Alias)
-                .ToArray();
-
-            if (settingsTypeAliases?.Any() == true)
-            {
-                var settingsItemType = GetPublishedModelType(settingsTypeAliases);
-
-                if (settingsItemType != null)
-                {
-                    return typeof(BlockListItem<,>).MakeGenericType(contentItemType, settingsItemType);
-                }
-            }
-
-            return typeof(BlockListItem<>).MakeGenericType(contentItemType);
+            return typeof(BlockListItem);
         }
     }
 }

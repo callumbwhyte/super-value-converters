@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [4.2.1] - 2026-11-19
+### Added
+* New `ModelFactory` for more efficiently locating & converting types
+
+### Fixed
+* Blocks and media are no longer dropped from properties that allow items of several types sharing an interface
+
+### Removed
+* Support for Umbraco 9 and .NET 5
+
 ## [4.2.0] - 2026-11-17
 ### Added
 * Support for Block List Editors to return `BlockListItem<TContent>` or `BlockListItem<TContent, TSettings>`
@@ -114,7 +124,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * README file with information about the project and screenshots
 * MIT license in the form of a LICENSE.md file
 
-[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.2.0...HEAD
+[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.2.1...HEAD
+[4.2.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.2.0...release-4.2.1
 [4.2.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.1...release-4.2.0
 [4.1.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.0...release-4.1.1
 [4.1.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.0.1...release-4.1.0

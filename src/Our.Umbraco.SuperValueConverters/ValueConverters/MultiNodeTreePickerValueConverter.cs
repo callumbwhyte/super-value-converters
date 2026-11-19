@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Cms.Core;
-using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Core = Umbraco.Cms.Core.PropertyEditors.ValueConverters;
@@ -12,11 +11,13 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
     public class MultiNodeTreePickerValueConverter : SuperValueConverterBase
     {
         private readonly IPropertyValueConverter _valueConverter;
+        private readonly ModelFactory _modelFactory;
 
-        public MultiNodeTreePickerValueConverter(Core.MultiNodeTreePickerValueConverter valueConverter, TypeLoader typeLoader)
-            : base(valueConverter, typeLoader)
+        public MultiNodeTreePickerValueConverter(Core.MultiNodeTreePickerValueConverter valueConverter, ModelFactory modelFactory)
+            : base(valueConverter, modelFactory)
         {
             _valueConverter = valueConverter;
+            _modelFactory = modelFactory;
         }
 
         public override string[] IgnoreProperties => new[]
@@ -38,7 +39,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var multiple = config.MaxNumber != 1;
 
-            var itemType = GetPublishedModelType(allowedTypes) ?? typeof(IPublishedContent);
+            var itemType = _modelFactory.GetModelType(allowedTypes) ?? typeof(IPublishedContent);
 
             if (multiple == true)
             {

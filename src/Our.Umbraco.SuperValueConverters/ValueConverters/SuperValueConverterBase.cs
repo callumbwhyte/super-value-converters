@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Our.Umbraco.SuperValueConverters.Extensions;
 using Our.Umbraco.SuperValueConverters.Models;
-using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Extensions;
@@ -14,12 +13,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
     public abstract class SuperValueConverterBase : PropertyValueConverterBase
     {
         private readonly IPropertyValueConverter _valueConverter;
-        private readonly TypeLoader _typeLoader;
+        private readonly ModelFactory _modelFactory;
 
-        public SuperValueConverterBase(IPropertyValueConverter valueConverter, TypeLoader typeLoader)
+        public SuperValueConverterBase(IPropertyValueConverter valueConverter, ModelFactory modelFactory)
         {
             _valueConverter = valueConverter;
-            _typeLoader = typeLoader;
+            _modelFactory = modelFactory;
         }
 
         /// <summary>
@@ -28,23 +27,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
         public virtual string[] IgnoreProperties { get; }
 
         /// <summary>
+        /// Converts an individual item to the given type
+        /// </summary>
+        protected virtual object ConvertItemToType(object item, Type type) => null;
+
+        /// <summary>
         /// Builds the <see cref="IPickerSettings" /> object for the property type
         /// </summary>
         [Obsolete("Implement GetPropertyValueType within the value converter instead")]
         public virtual IPickerSettings GetSettings(IPublishedPropertyType propertyType) => null;
-
-        /// <summary>
-        /// Gets the common published model type for the given content type aliases
-        /// </summary>
-        protected virtual Type GetPublishedModelType(params string[] contentTypeAliases)
-        {
-            var types = _typeLoader.GetPublishedModelTypes(contentTypeAliases);
-
-            return _typeLoader.FindCommonInterfaces(types, type =>
-            {
-                return type.Namespace != typeof(IPublishedElement).Namespace;
-            });
-        }
 
         /// <inheritdoc />
         public override bool IsConverter(IPublishedPropertyType propertyType)
@@ -66,7 +57,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             if (settings?.AllowedTypes?.Any() == true)
             {
-                modelType = GetPublishedModelType(settings.AllowedTypes.ToArray()) ?? settings.BaseType;
+                modelType = _modelFactory.GetModelType(settings.AllowedTypes.ToArray()) ?? settings.BaseType;
             }
 
             if (settings?.AllowsMultiple() == true)
@@ -100,34 +91,32 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var clrType = propertyType.ClrType ?? GetPropertyValueType(propertyType);
 
-            var allowsMultiple = clrType.IsIEnumerable();
+            var multiple = clrType.IsIEnumerable();
 
-            var modelType = allowsMultiple == true ? clrType.GetInnerType() : clrType;
+            var itemType = multiple ? clrType.GetInnerType() : clrType;
 
-            var result = modelType.CreateList();
+            var result = itemType.CreateList();
 
-            if (value is IEnumerable items)
+            var items = value as IEnumerable ?? new[] { value };
+
+            foreach (var item in items)
             {
-                foreach (var item in items)
+                if (itemType.IsAssignableFrom(item?.GetType()) == true)
                 {
-                    if (item != null)
+                    result.Add(item);
+                }
+                else
+                {
+                    var converted = ConvertItemToType(item, itemType);
+
+                    if (converted != null)
                     {
-                        if (modelType.IsAssignableFrom(item.GetType()) == true)
-                        {
-                            result.Add(item);
-                        }
+                        result.Add(converted);
                     }
                 }
             }
-            else if (value != null)
-            {
-                if (modelType.IsAssignableFrom(value.GetType()) == true)
-                {
-                    result.Add(value);
-                }
-            }
 
-            return allowsMultiple == true ? result : result.FirstOrNull();
+            return multiple ? result : result.FirstOrNull();
         }
 
         /// <inheritdoc />

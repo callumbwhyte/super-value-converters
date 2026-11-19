@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
@@ -10,10 +9,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     internal class MediaPickerValueConverter : SuperValueConverterBase
     {
-        public MediaPickerValueConverter(Core.MediaPickerWithCropsValueConverter valueConverter, TypeLoader typeLoader)
-            : base(valueConverter, typeLoader)
-        {
+        private readonly ModelFactory _modelFactory;
 
+        public MediaPickerValueConverter(Core.MediaPickerWithCropsValueConverter valueConverter, ModelFactory modelFactory)
+            : base(valueConverter, modelFactory)
+        {
+            _modelFactory = modelFactory;
         }
 
         public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
@@ -24,7 +25,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var multiple = config.ValidationLimit.Max != 1;
 
-            var modelType = GetPublishedModelType(allowedTypes);
+            var modelType = _modelFactory.GetModelType(allowedTypes);
 
             var itemType = modelType != null
                 ? typeof(MediaWithCrops<>).MakeGenericType(modelType)

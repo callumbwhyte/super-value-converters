@@ -13,7 +13,7 @@ namespace Our.Umbraco.SuperValueConverters.Extensions
             {
                 if (intersection == null)
                 {
-                    intersection = new List<T>(value);
+                    intersection = new List<T>();
                 }
                 else
                 {

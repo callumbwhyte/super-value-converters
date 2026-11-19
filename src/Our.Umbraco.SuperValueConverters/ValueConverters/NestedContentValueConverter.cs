@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Cms.Core;
-using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Core = Umbraco.Cms.Core.PropertyEditors.ValueConverters;
@@ -11,10 +10,12 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 {
     public class NestedContentValueConverter : SuperValueConverterBase
     {
-        public NestedContentValueConverter(Core.NestedContentManyValueConverter valueConverter, TypeLoader typeLoader)
-            : base(valueConverter, typeLoader)
-        {
+        private readonly ModelFactory _modelFactory;
 
+        public NestedContentValueConverter(Core.NestedContentManyValueConverter valueConverter, ModelFactory modelFactory)
+            : base(valueConverter, modelFactory)
+        {
+            _modelFactory = modelFactory;
         }
 
         public override bool IsConverter(IPublishedPropertyType propertyType)
@@ -30,7 +31,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             var multiple = config.MaxItems != 1;
 
-            var itemType = GetPublishedModelType(allowedTypes) ?? typeof(IPublishedElement);
+            var itemType = _modelFactory.GetModelType(allowedTypes) ?? typeof(IPublishedElement);
 
             if (multiple == true)
             {
