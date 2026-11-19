@@ -60,5 +60,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             return typeof(BlockListItem);
         }
+
+        protected override object ConvertItemToType(object item, Type type)
+        {
+            if (item is not BlockListItem block)
+            {
+                return null;
+            }
+
+            return _modelFactory.CreateBlockListItem(type, block);
+        }
     }
 }

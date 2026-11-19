@@ -38,5 +38,15 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
             return itemType;
         }
+
+        protected override object ConvertItemToType(object item, Type type)
+        {
+            if (item is not MediaWithCrops media)
+            {
+                return null;
+            }
+
+            return _modelFactory.CreateMediaWithCrops(type, media);
+        }
     }
 }

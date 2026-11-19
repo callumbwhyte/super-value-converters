@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Our.Umbraco.SuperValueConverters.Extensions;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PublishedCache;
@@ -8,7 +9,7 @@ using Umbraco.Extensions;
 
 namespace Our.Umbraco.SuperValueConverters
 {
-    public sealed class ModelFactory
+    public sealed partial class ModelFactory
     {
         private readonly IPublishedModelFactory _modelFactory;
         private readonly PublishedContentTypeCache _contentTypeCache;
@@ -24,9 +25,27 @@ namespace Our.Umbraco.SuperValueConverters
         /// <summary>
         /// Creates an instance of a given model type
         /// </summary>
-        public object CreateModel(Type type, params object[] parameters)
+        public object CreateModel(Type type, IEnumerable<Type> argumentTypes, IEnumerable<object> arguments)
         {
-            return _serviceProvider.CreateInstance(type, parameters);
+            var factory = ActivatorUtilities.CreateFactory(type, argumentTypes.ToArray());
+
+            return factory(_serviceProvider, arguments.ToArray());
+        }
+
+        /// <summary>
+        /// Creates an instance of a given model type with arguments
+        /// </summary>
+        public object CreateModel(Type type, params object[] arguments)
+        {
+            return CreateModel(type, arguments.Select(x => x?.GetType() ?? typeof(object)), arguments.Select(x => x));
+        }
+
+        /// <summary>
+        /// Creates an instance of a given model type with typed arguments
+        /// </summary>
+        public object CreateModel(Type type, params (Type Type, object Value)[] arguments)
+        {
+            return CreateModel(type, arguments.Select(x => x.Type), arguments.Select(x => x.Value));
         }
 
         /// <summary>
@@ -38,7 +57,7 @@ namespace Our.Umbraco.SuperValueConverters
         }
 
         /// <summary>
-        /// Gets the model type for a given <c>PublishedItemType</c> and content type key
+        /// Gets the model type for a given <see cref="PublishedItemType"/> and content type key
         /// </summary>
         public Type GetModelType(PublishedItemType itemType, Guid key)
         {
@@ -56,7 +75,7 @@ namespace Our.Umbraco.SuperValueConverters
         }
 
         /// <summary>
-        /// Gets the model type for a given <c>PublishedItemType</c> and collection of content type keys
+        /// Gets the model type for a given <see cref="PublishedItemType"/> and collection of content type keys
         /// </summary>
         public Type GetModelType(PublishedItemType itemType, IEnumerable<Guid> keys)
         {
@@ -82,7 +101,7 @@ namespace Our.Umbraco.SuperValueConverters
         }
 
         /// <summary>
-        /// Gets the model types for a given <c>PublishedItemType</c> and collection of content type keys
+        /// Gets the model types for a given <see cref="PublishedItemType"/> and collection of content type keys
         /// </summary>
         public IEnumerable<Type> GetModelTypes(PublishedItemType itemType, IEnumerable<Guid> keys)
         {
