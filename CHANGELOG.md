@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [5.0.2] - 2026-11-19
+### Fixed
+* Block List items without settings can't be created, switch `ModelFactory` to use `Activator` factory with typed params
+
 ## [5.0.1] - 2026-11-19
 ### Added
 * New `ModelFactory` for more efficiently locating & converting types
@@ -26,6 +30,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Removed
 * Nested Content support, as it was removed from Umbraco
 * Support for Umbraco v9-v13, which remains on the 4.x releases
+
+## [4.2.2] - 2026-11-19
+### Fixed
+* Block List items without settings can't be created, switch `ModelFactory` to use `Activator` factory with typed params
 
 ## [4.2.1] - 2026-11-19
 ### Added
@@ -147,9 +155,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 * README file with information about the project and screenshots
 * MIT license in the form of a LICENSE.md file
 
-[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-5.0.0...HEAD
+[Unreleased]: https://github.com/callumbwhyte/super-value-converters/compare/release-5.0.2...HEAD
+[5.0.2]: https://github.com/callumbwhyte/super-value-converters/compare/release-5.0.1...release-5.0.2
 [5.0.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-5.0.0...release-5.0.1
 [5.0.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.2.0...release-5.0.0
+[4.2.2]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.2.1...release-4.2.2
 [4.2.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.2.0...release-4.2.1
 [4.2.0]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.1...release-4.2.0
 [4.1.1]: https://github.com/callumbwhyte/super-value-converters/compare/release-4.1.0...release-4.1.1
