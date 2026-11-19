@@ -71,15 +71,6 @@ internal class MediaPickerValueConverter<T> : SuperValueConverterBase
             return null;
         }
 
-        var typeArguments = type.GetGenericArguments();
-
-        var mediaType = typeArguments.ElementAtOrDefault(0) ?? typeof(IPublishedContent);
-
-        if (mediaType.IsInstanceOfType(media.Content) == false)
-        {
-            return null;
-        }
-
-        return _modelFactory.CreateModel(type, media.Content, media.LocalCrops);
+        return _modelFactory.CreateMediaWithCrops(type, media);
     }
 }

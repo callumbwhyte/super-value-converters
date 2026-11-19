@@ -82,22 +82,6 @@ internal class BlockListValueConverter<T> : SuperValueConverterBase
             return null;
         }
 
-        var typeArguments = type.GetGenericArguments();
-
-        var contentType = typeArguments.ElementAtOrDefault(0) ?? typeof(IPublishedElement);
-
-        if (contentType.IsInstanceOfType(block.Content) == false)
-        {
-            return null;
-        }
-
-        var settingsType = typeArguments.ElementAtOrDefault(1) ?? typeof(IPublishedElement);
-
-        if (block.Settings != null && !settingsType.IsInstanceOfType(block.Settings))
-        {
-            return null;
-        }
-
-        return _modelFactory.CreateModel(type, block.ContentKey, block.Content, block.SettingsKey, block.Settings);
+        return _modelFactory.CreateBlockListItem(type, block);
     }
 }
